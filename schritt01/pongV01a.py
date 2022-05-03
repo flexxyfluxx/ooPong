@@ -2,34 +2,35 @@
 
 # Imports:
 from gamegrid import GameGrid, Actor
-from os.path import abspath # oh nyo the namespace OwO~ onwy impowt whats neccessawy~~ rawr :3
+from constants import * # Konstanten in ein eigenes Modul verkapselt, um diese universeller verwenden zu können.
 
-# Definitionsbereich
+# --- Definitionsbereich ---
 
-# Dict mit den Paths zu den relevanten Bildern: (Ich mach's jetzt schon mal ausführlich, damit ich's später nicht muss)
-SPRITE = {
-    "schlaeger" : abspath(".\images\schlaeger_small.jpg"),
-    "ball" : abspath(".\images\ball.jpg")
-}
+# Keypress-Handler:
+def on_key_pressed(event):
+    
 
-# Richtungskonstanten:
-E = 0
-S = 90
-W = 180
-N = 270
-
-# Schläger-Actorklasse:
+# class Schlaeger:
 class Schlaeger(Actor):
     def __init__(self):
         Actor.__init__(self, SPRITE['schlaeger'])
     
-    def act():
+    def act(self, key_in = None):
         pass
+        
     
-    def move():
+    def move(self, direction, dist):
         pass
 
 
-# Main-Bereich
+# -------- MAIN --------
 if __name__ == "__main__":
-    pass
+    makeGameGrid(800,600,1,None,"sprites/lane.gif", False, keyPressed = onKeyPressed, keyReleased = onKeyReleased)
+    
+    schlaeger_1 = Schlaeger(
+    
+    
+    
+    
+    
+    setSimulationPeriod(50) # entspricht etwa 20tps
