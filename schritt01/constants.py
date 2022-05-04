@@ -6,15 +6,15 @@ from os.path import abspath # oh nyo the namespace OwO~ onwy impowt whats necces
 
 # Dict mit den Paths zu den relevanten Bildern:
 SPRITE = {
-    "schlaeger" : abspath(".\images\schlaeger_small.jpg"),
-    "ball" : abspath(".\images\ball.jpg")
+    "schlaeger" : abspath(".\sprites\schlaeger_small.jpg"),
+    "ball" : abspath(".\sprites\ball.jpg")
 }
 
 # Richtungskonstanten:
-E = 0
-S = 90
-W = 180
-N = 270
+EAST = 0
+SOUTH = 90
+WEST = 180
+NORTH = 270
 
 # Keypress-Dict
 KEY = {
@@ -62,3 +62,6 @@ KEY = {
     '8' : 56,
     '9' : 57
 }
+if __name__ == "__main__":
+    e = 123
+    print(E)

@@ -31,4 +31,7 @@ if __name__ == "__main__":
     gg.setSimulationPeriod(33) # entspricht 30tps
     
     gg.show()
+    while True:
+        if pass:
+            break()
     gg.doRun()
