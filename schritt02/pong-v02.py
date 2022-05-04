@@ -30,19 +30,27 @@ class Schlaeger(gg.Actor):
         self.move_dist = 0
     
     def act(self):
+        self.navigate()
         #"""
         self.move(self.move_dist)
         """
         self.move()
         #"""
-        
-        if self.getY() <= self.min_y + 82: # 82, damit der Schläger gerade so den Rahmen berührt, diesen aber nicht überschreitet. (Schläger ist 164px hoch)
-            self.setDirection(SOUTH)
-        elif self.getY() >= self.max_y - 82: # s.o.
-            self.setDirection(NORTH)
     
-    def set_move_speed(self, dist):
-        self.move_dist = dist
+    def navigate(self):
+        if self.getY() <= self.min_y + 82:
+            self.set_course(5, SOUTH)
+        elif self.getY() >= self.max_y - 82:
+            self.set_course(5, NORTH)
+
+    def set_course(self, *args):
+        if len(args) == 1:
+            self.move_dist = args[0]
+        elif len(args) == 2:
+            self.move_dist = args[0]
+            self.setDirection(args[1])
+        else:
+            raise ValueError("Incorrect number of arguments given! (Exactly 1 or 2 expected in addition to Self)")
 
 def await_keypress(key_code):
     while True:
@@ -53,9 +61,9 @@ def event_key_press(event):
     """
     Hört auf Keypresses und verarbeitet diese.
     """
-    key_code = event.getKeyCode()
+    key_codes = gg.getPressedKeyCodes()
     
-    if key_code == KEY['space']:
+    if KEY['space'] in key_codes:
         if gg.isRunning():
             gg.doPause()
             gg.setStatusText("Press SPACE to unpause!")
@@ -63,31 +71,32 @@ def event_key_press(event):
             gg.doRun()
             gg.setStatusText("Press SPACE to pause!")
             
-    if key_code == KEY['w']:
+    if KEY['w'] in key_codes and gg.isKeyPressed(KEY['w']):
         schlaeger_1.setDirection(NORTH)
-        schlaeger_1.set_move_speed(5)
+        schlaeger_1.set_course(5)
         
-    if key_code == KEY['s']:
+    if KEY['s'] in key_codes and gg.isKeyPressed(KEY['s']):
         schlaeger_1.setDirection(SOUTH)
-        schlaeger_1.set_move_speed(5)
+        schlaeger_1.set_course(5)
         
-    if key_code == KEY['arr_up']:
+    if KEY['arr_up'] in key_codes and gg.isKeyPressed(KEY['arr_up']):
         schlaeger_2.setDirection(NORTH)
-        schlaeger_2.set_move_speed(5)
+        schlaeger_2.set_course(5)
         
-    if key_code == KEY['arr_dn']:
+    if KEY['arr_dn'] in key_codes and gg.isKeyPressed(KEY['arr_dn']):
         schlaeger_2.setDirection(SOUTH)
-        schlaeger_2.set_move_speed(5)
+        schlaeger_2.set_course(5)
 
 def event_key_release(event):
     """
     Hört auf Key-Released's und verarbeitet diese.
     """
     if not gg.isKeyPressed(KEY['w']) and not gg.isKeyPressed(KEY['w']):
-        schlaeger_1.set_move_speed(0)
+        schlaeger_1.set_course(0)
     if not gg.isKeyPressed(KEY['arr_up']) and not gg.isKeyPressed(KEY['arr_dn']):
-        schlaeger_2.set_move_speed(0)
-        
+        schlaeger_2.set_course(0)
+    
+    event_key_press(None)
 
 # -------- MAIN --------
 if __name__ == "__main__":
