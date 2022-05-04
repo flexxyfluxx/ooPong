@@ -27,37 +27,76 @@ class Schlaeger(gg.Actor):
         
         self.max_y = max_y
         self.min_y = 0
+        self.move_dist = 0
     
     def act(self):
+        #"""
+        self.move(self.move_dist)
+        """
         self.move()
+        #"""
         
         if self.getY() <= self.min_y + 82: # 82, damit der Schläger gerade so den Rahmen berührt, diesen aber nicht überschreitet. (Schläger ist 164px hoch)
             self.setDirection(SOUTH)
         elif self.getY() >= self.max_y - 82: # s.o.
             self.setDirection(NORTH)
+    
+    def set_move_speed(self, dist):
+        self.move_dist = dist
 
 def await_keypress(key_code):
     while True:
         if gg.isKeyPressed(key_code):
             return
 
-def pause_unpause(event):
+def event_key_press(event):
+    """
+    Hört auf Keypresses und verarbeitet diese.
+    """
     key_code = event.getKeyCode()
-    if keyCode == KEY['space'] and gg.isRunning():
-        gg.doPause()
-        gg.setStatusText("Press SPACE to unpause!")
-    elif key_code == KEY['space'] and gg.isPaused():
-        gg.doRun()
-        gg.setStatusText("Press SPACE to pause!")
+    
+    if key_code == KEY['space']:
+        if gg.isRunning():
+            gg.doPause()
+            gg.setStatusText("Press SPACE to unpause!")
+        else:
+            gg.doRun()
+            gg.setStatusText("Press SPACE to pause!")
+            
+    if key_code == KEY['w']:
+        schlaeger_1.setDirection(NORTH)
+        schlaeger_1.set_move_speed(5)
+        
+    if key_code == KEY['s']:
+        schlaeger_1.setDirection(SOUTH)
+        schlaeger_1.set_move_speed(5)
+        
+    if key_code == KEY['arr_up']:
+        schlaeger_2.setDirection(NORTH)
+        schlaeger_2.set_move_speed(5)
+        
+    if key_code == KEY['arr_dn']:
+        schlaeger_2.setDirection(SOUTH)
+        schlaeger_2.set_move_speed(5)
+
+def event_key_release(event):
+    """
+    Hört auf Key-Released's und verarbeitet diese.
+    """
+    if not gg.isKeyPressed(KEY['w']) and not gg.isKeyPressed(KEY['w']):
+        schlaeger_1.set_move_speed(0)
+    if not gg.isKeyPressed(KEY['arr_up']) and not gg.isKeyPressed(KEY['arr_dn']):
+        schlaeger_2.set_move_speed(0)
+        
 
 # -------- MAIN --------
 if __name__ == "__main__":
     show_debug_bar = True
-    gg.makeGameGrid(WINDOW_WIDTH, WINDOW_HEIGHT, 1, None, None, show_debug_bar, keyPressed = pause_unpause)
+    gg.makeGameGrid(WINDOW_WIDTH, WINDOW_HEIGHT, 1, None, None, show_debug_bar, keyPressed = event_key_press, keyReleased = event_key_release)
     
     schlaeger_1, schlaeger_2 = Schlaeger(), Schlaeger()
-    gg.addActor(schlaeger_1, gg.Location(50, WINDOW_HEIGHT // 2), NORTH)
-    gg.addActor(schlaeger_2, gg.Location(WINDOW_WIDTH - 50, WINDOW_HEIGHT // 2), NORTH)
+    gg.addActor(schlaeger_1, gg.Location(50, WINDOW_HEIGHT // 2))
+    gg.addActor(schlaeger_2, gg.Location(WINDOW_WIDTH - 50, WINDOW_HEIGHT // 2))
 
     gg.setSimulationPeriod(33) # entspricht ~30tps
     
