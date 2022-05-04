@@ -1,12 +1,16 @@
-# In der ersten Version werde ich lediglich 
+""" V1:
+Die Schläger existieren auf einem Feld und bewegen sich auf und ab.
+"""
 
-# Imports:
+""" Imports: """
 import gamegrid as gg
-from constants import * # Konstanten in ein eigenes Modul verkapselt, um diese universeller verwenden zu können.
+from constants import * # Konstanten in ein eigenes Modul verkapselt, um diese universeller verwenden zu können. (Main ist übersichtlicher :D )
 
 # --- Definitionsbereich ---
 
-# class Schlaeger:
+""" class Schlaeger: 
+Erzeugt ein Schläger-Objekt, das sich auf dem Feld auf und ab bewegt.
+"""
 class Schlaeger(gg.Actor):
     def __init__(self):
         gg.Actor.__init__(self, SPRITE['schlaeger'])
@@ -14,9 +18,9 @@ class Schlaeger(gg.Actor):
     def act(self):
         self.move()
         
-        if self.getY() <= 80:
+        if self.getY() <= 82: # 82, damit der Schläger gerade so den Rahmen berührt, diesen aber nicht überschreitet. (Schläger ist 164px hoch)
             self.setDirection(SOUTH)
-        elif self.getY() >= 520:
+        elif self.getY() >= 518: # s.o.
             self.setDirection(NORTH)
 
 
