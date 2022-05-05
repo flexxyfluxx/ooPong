@@ -36,7 +36,7 @@ class Ball(gg.Actor):
         
         if self.getX() <= self.min_x and original_angle < 270 and original_angle > 90:
             #self.setX(self.min_x)
-            return (540 - original_angle) % 360
+            return (180 - original_angle) % 360
         
         elif self.getY() <= self.min_y and original_angle < 360 and original_angle > 180:
             #self.setY(self.min_y)
@@ -44,7 +44,7 @@ class Ball(gg.Actor):
         
         elif self.getX() >= self.max_x and (original_angle  < 90 or original_angle > 270):
             self.setX(self.max_x)
-            return (540 - original_angle) % 360
+            return (180 - original_angle) % 360
         
         elif self.getY() >= self.max_y and original_angle < 180:
             #self.setY(self.max_y)
