@@ -24,14 +24,10 @@ class Schlaeger(gg.Actor):
         self._last_direction = NORTH
     
     def act(self):
-        self.navigate()
-        """
-        self.move(self.move_dist)
-        """
+        self._do_border_things()
         self.move()
-        #"""
     
-    def navigate(self):
+    def _do_border_things(self):
         if self.getY() <= self.min_y + 82:
             self.setY(self.min_y + 82)
         elif self.getY() >= self.max_y - 82:

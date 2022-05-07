@@ -9,6 +9,22 @@ from Ball import *
 from constants_etc import *
 from random import randint
 
+# ----- FUNKTIONEN -----
+def await_keypress(key_code):
+    while getKeyCodeWait() != key_code:
+        pass
+    
+""" BONUS:
+# Bullshit rekursive python3.8+ - Variante: (rip assignment expression)
+def get_start_direction():
+    return direction if (direction := randint(0, 359)) in range(0, 60) \
+                                        or direction in range(120, 240) \
+                                        or direction in range(300, 359) \
+        else get_start_direction()
+"""
+
+# ----- ENDE FUNKTIONEN -----
+
 # -------- MAIN --------
 if __name__ == "__main__":
     show_debug_bar = True
@@ -21,7 +37,7 @@ if __name__ == "__main__":
     gg.addActor(schlaeger_1, gg.Location(50, WINDOW_HEIGHT // 2))
     gg.addActor(schlaeger_2, gg.Location(WINDOW_WIDTH - 50, WINDOW_HEIGHT // 2))
     #"""
-    gg.addActor(the_ball, gg.Location(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2), randint(0, 360))
+    gg.addActor(the_ball, gg.Location(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2), choice(START_DIRECTIONS))
     """
     gg.addActor(the_ball, gg.Location(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2), 45) # Corner Debug
     #"""

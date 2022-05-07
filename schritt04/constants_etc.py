@@ -80,13 +80,9 @@ KEY = {
     '8' : 56,
     '9' : 57
 }
-# ----- ENDE KONSTANTEN -----
 
-# ----- FUNKTIONEN -----
-def await_keypress(key_code):
-    while getKeyCodeWait() != key_code:
-        pass
-# ----- ENDE FUNKTIONEN -----
+START_DIRECTIONS = list(range(0, 60)) + list(range(120, 240)) + list(range(300, 359))
+# ----- ENDE KONSTANTEN -----
 
 # ----- TESTBEREICH -----
 if __name__ == "__main__":

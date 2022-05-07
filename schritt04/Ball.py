@@ -31,21 +31,14 @@ class Ball(gg.Actor):
     def get_exit_angle(self):
         original_angle = self.getDirection()
         
-        # 
-        
         if ( ( self.getX() <= self.min_x and original_angle < 270 and original_angle > 90 ) \
-            or (self.getX() >= self.max_x and ( original_angle  < 90 or original_angle > 270 ) ) ):
+                or (self.getX() >= self.max_x and ( original_angle  < 90 or original_angle > 270 ) ) ):
             #self.setX(self.min_x)
             return (180 - original_angle) % 360
         
         if ( ( self.getY() <= self.min_y and original_angle < 360 and original_angle > 180 ) \
             or ( self.getY() >= self.max_y and original_angle < 180 ) ):
             #self.setY(self.min_y)
-            return (360 - original_angle) % 360
-        
-        
-        if self.getY() >= self.max_y and original_angle < 180:
-            #self.setY(self.max_y)
             return (360 - original_angle) % 360
         
         return original_angle
