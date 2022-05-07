@@ -1,5 +1,6 @@
 """ Universal Constants Module:
 Enthält die ganzen Dicts und so.
+Hier werden außerdem die Settings aus der INI geparsed und Konstanten zugewiesen.
 """
 
 from os.path import abspath # oh nyo the namespace OwO~ onwy impowt whats neccessawy~~ rawr :3
@@ -81,12 +82,6 @@ KEY = {
     '9' : 57
 }
 # ----- ENDE KONSTANTEN -----
-
-# ----- FUNKTIONEN -----
-def await_keypress(key_code):
-    while getKeyCodeWait() != key_code:
-        pass
-# ----- ENDE FUNKTIONEN -----
 
 # ----- TESTBEREICH -----
 if __name__ == "__main__":

@@ -9,6 +9,29 @@ from Ball import *
 from constants_etc import *
 from random import randint
 
+# ----- DEFINITIONSBEREICH -----
+def event_key_press(event):
+    """
+    Hört auf Keypresses und verarbeitet diese.
+    """
+    key_codes = gg.getPressedKeyCodes()
+    
+    if KEY['space'] in key_codes:
+        if gg.isRunning():
+            gg.doPause()
+            gg.setStatusText("Press SPACE to unpause!")
+        else:
+            gg.doRun()
+            gg.setStatusText("Press SPACE to pause!")
+
+def await_keypress(key_code):
+    """
+    wartet auf den gegebenen Keypress.
+    """
+    while getKeyCodeWait() != key_code:
+        pass
+# ----- ENDE DEFINITIONSBEREICH -----
+
 # -------- MAIN --------
 if __name__ == "__main__":
     show_debug_bar = True

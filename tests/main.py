@@ -11,26 +11,26 @@ from random import randint
 from time import sleep
 
 # ----- DEFINITIONSBEREICH -----
-def event_key_press(event):
+def event_key_press(event, grid):
     """
     Hört auf Keypresses und verarbeitet diese.
     """
-    key_codes = main_grid.getPressedKeyCodes()
+    key_codes = grid.getPressedKeyCodes()
     
     if KEY['space'] in key_codes:
-        if main_grid.isRunning():
-            main_grid.doPause()
-            main_grid.setStatusText("Press SPACE to unpause!")
+        if grid.isRunning():
+            grid.doPause()
+            grid.setStatusText("Press SPACE to unpause!")
         else:
-            main_grid.doRun()
-            main_grid.setStatusText("Press SPACE to pause!")
+            grid.doRun()
+            grid.setStatusText("Press SPACE to pause!")
 
 # ----- ENDE DEFINITIONSBEREICH -----
 
 # -------- MAIN --------
 if __name__ == "__main__":
     show_debug_bar = True
-    main_grid = gg.GameGrid(WINDOW_WIDTH, WINDOW_HEIGHT, 1, None, None, show_debug_bar, keyPressed = event_key_press)
+    main_grid = gg.GameGrid(WINDOW_WIDTH, WINDOW_HEIGHT, 1, None, None, show_debug_bar, keyPressed = lambda event: event_key_press(event, main_grid))
     
     schlaeger_1 = Schlaeger(main_grid, KEY['w'], KEY['s'])
     schlaeger_2 = Schlaeger(main_grid, KEY['arr_up'], KEY['arr_dn'])

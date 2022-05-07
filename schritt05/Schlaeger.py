@@ -60,20 +60,6 @@ class Schlaeger(gg.Actor):
             elif gg.isKeyPressed(self.key_dn):
                 self.setY(self.getY() + PADDLE_SPEED)
 
-def event_key_press(event):
-    """
-    Hört auf Keypresses und verarbeitet diese.
-    """
-    key_codes = gg.getPressedKeyCodes()
-    
-    if KEY['space'] in key_codes:
-        if gg.isRunning():
-            gg.doPause()
-            gg.setStatusText("Press SPACE to unpause!")
-        else:
-            gg.doRun()
-            gg.setStatusText("Press SPACE to pause!")
-    
 # -------- MAIN --------
 if __name__ == "__main__":
     pass
