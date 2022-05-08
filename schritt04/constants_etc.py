@@ -8,7 +8,7 @@ import ConfigParser as cp # o_o realization
 
 # ----- SETTINGS VON INI LADEN -----
 parser = cp.ConfigParser()
-parser.read("config.ini")
+parser.read("settings.ini")
 
 WINDOW_HEIGHT = parser.getint('WindowDimensions', 'WINDOW_HEIGHT')
 WINDOW_HEIGHT = 200 if WINDOW_HEIGHT < 200 else WINDOW_HEIGHT

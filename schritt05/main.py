@@ -6,8 +6,9 @@ Hier wird der Hauptprogrammablauf beschrieben.
 import gamegrid as gg
 from Schlaeger import *
 from Ball import *
+from Collisions import *
 from constants_etc import *
-from random import randint
+from random import randint, choice
 
 # ----- DEFINITIONSBEREICH -----
 def event_key_press(event):
@@ -35,21 +36,37 @@ def await_keypress(key_code):
 # -------- MAIN --------
 if __name__ == "__main__":
     show_debug_bar = True
-    gg.makeGameGrid(WINDOW_WIDTH, WINDOW_HEIGHT, 1, None, None, show_debug_bar, keyPressed = event_key_press)
+    gg.makeGameGrid(
+        WINDOW_WIDTH, WINDOW_HEIGHT, 1, None, None,
+        show_debug_bar, keyPressed = event_key_press
+    )
     
-    schlaeger_1 = Schlaeger(KEY['w'], KEY['s'])
-    schlaeger_2 = Schlaeger(KEY['arr_up'], KEY['arr_dn'])
     the_ball = Ball()
+    schlaeger_1 = Schlaeger(KEY['w'], KEY['s'], the_ball)
+    schlaeger_2 = Schlaeger(KEY['arr_up'], KEY['arr_dn'], the_ball)
     
-    gg.addActor(schlaeger_1, gg.Location(50, WINDOW_HEIGHT // 2))
-    gg.addActor(schlaeger_2, gg.Location(WINDOW_WIDTH - 50, WINDOW_HEIGHT // 2))
+    location_s1 = gg.Location(50, WINDOW_HEIGHT // 2)
+    location_s2 = gg.Location(WINDOW_WIDTH - 50, WINDOW_HEIGHT // 2)
+    gg.addActor(schlaeger_1, location_s1)
+    gg.addActor(schlaeger_2, location_s2)
+    
+    location_ball = gg.Location(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
     #"""
-    gg.addActor(the_ball, gg.Location(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2), randint(0, 360))
+    gg.addActor(the_ball, location_ball, choice(START_DIRECTIONS))
     """
-    gg.addActor(the_ball, gg.Location(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2), 45) # Corner Debug
+    # Corner Debug
+    gg.addActor(the_ball, location_ball, 0)
     #"""
+    
+    ball_collider = Collider()
+    schlaeger_1.addActorCollisionListener(ball_collider)
+    schlaeger_2.addActorCollisionListener(ball_collider)
+    the_ball.addActorCollisionListener(ball_collider)
 
-    gg.setSimulationPeriod(33) # entspricht ~30tps
+    the_ball.addCollisionActor(schlaeger_1)
+    the_ball.addCollisionActor(schlaeger_2)
+
+    gg.setSimulationPeriod(8) # entspricht ~120tps
     
     gg.setTitle("Ponk!")
     gg.addStatusBar(20)

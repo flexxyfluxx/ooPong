@@ -22,31 +22,50 @@ class Ball(gg.Actor):
     
     def act(self):
         
-        self.move()
+        self.move(BALL_SPEED)
         
         #print(self.get_exit_angle())
-        self.setDirection(int(self.get_exit_angle()))
+        self.setDirection(self.get_exit_angle())
         
     
-    def get_exit_angle(self):
+    def get_exit_angle(self, collision_type=BORDER, paddle=None):
         original_angle = self.getDirection()
         
-        # 
+        # Rand-Kollision:
+        if collision_type is BORDER:
+            # Ost-West-Kollision:
+            if ((self.getX() <= self.min_x and original_angle < 270 and original_angle > 90) \
+                    or (self.getX() >= self.max_x and (original_angle  < 90 or original_angle > 270))):
+                #self.setX(self.min_x)
+                return int((180 - original_angle) % 360)
+            
+            # Nord-Süd-Kollision:
+            if ((self.getY() <= self.min_y and original_angle < 360 and original_angle > 180 ) \
+                    or (self.getY() >= self.max_y and original_angle < 180)):
+                #self.setY(self.min_y)
+                return int(360 - original_angle) # Kein Modulo nötig, da der gegebene und der entstehende Winkel nicht über 360 / unter 0 sein können
+            
+            # Falls keine Kollision vorhanden: Ursprungsrichtung zurückgeben.
+            return int(original_angle)
         
-        if ( ( self.getX() <= self.min_x and original_angle < 270 and original_angle > 90 ) \
-            or (self.getX() >= self.max_x and ( original_angle  < 90 or original_angle > 270 ) ) ):
-            #self.setX(self.min_x)
-            return (180 - original_angle) % 360
-        
-        if ( ( self.getY() <= self.min_y and original_angle < 360 and original_angle > 180 ) \
-            or ( self.getY() >= self.max_y and original_angle < 180 ) ):
-            #self.setY(self.min_y)
-            return (360 - original_angle) % 360
-        
-        
-        if self.getY() >= self.max_y and original_angle < 180:
-            #self.setY(self.max_y)
-            return (360 - original_angle) % 360
-        
-        return original_angle
-        
+        # Schläger-Kollision:
+        elif collision_type is PADDLE:
+            if abs(paddle.getX() - self.getX()) < 10: # y-Kollision
+                return int(360 - original_angle)
+            
+            exit_angle =  int((180 - original_angle) % 360) + randint(-30, 30)
+            # x-Kollision
+            if original_angle in range(90, 270) and exit_angle in range(80, 280):
+                return 80 if abs(exit_angle - 80) < abs(exit_angle - 280) \
+                else 280
+                
+            if (original_angle not in range(90, 270)) and (exit_angle < 100 or exit_angle > 260):
+                return 100 if abs(exit_angle - 100) < abs(exit_angle - 260) \
+                else 260
+            
+            return exit_angle
+
+
+
+
+
