@@ -2,10 +2,11 @@
 Hier wird die Collision-Klasse beschrieben, die den Ball mit dem Schläger kollidieren lassen.
 """
 
-# Imports:
+""" Imports: """
 import gamegrid as gg
 from Ball import *
 from Schlaeger import *
+from random import randint
 
 """ class Collider:
 Erstellt das Kollisionsobjekt, das Kollisionen zwischen Schläger und Ball verwaltet.

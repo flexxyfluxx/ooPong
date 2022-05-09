@@ -1,5 +1,5 @@
 """ Schlaeger:
-Hier wird die Klasse Schlaeger beschrieben.
+Hier wird die Schlaeger-Klasse beschrieben.
 """
 
 """ Imports: """

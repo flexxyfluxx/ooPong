@@ -2,7 +2,7 @@
 Hier wird der Hauptprogrammablauf beschrieben.
 """
 
-# Imports:
+""" Imports: """
 import gamegrid as gg
 from Schlaeger import *
 from Ball import *
@@ -36,7 +36,7 @@ def await_keypress(key_code):
 # -------- MAIN --------
 if __name__ == "__main__":
     show_debug_bar = True
-    gg.makeGameGrid(
+    main_grid = gg.makeGameGrid(
         WINDOW_WIDTH, WINDOW_HEIGHT, 1, None, None,
         show_debug_bar, keyPressed = event_key_press
     )
@@ -59,6 +59,7 @@ if __name__ == "__main__":
     #"""
     
     ball_collider = Collider()
+    
     schlaeger_1.addActorCollisionListener(ball_collider)
     schlaeger_2.addActorCollisionListener(ball_collider)
     the_ball.addActorCollisionListener(ball_collider)

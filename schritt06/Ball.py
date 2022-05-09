@@ -1,5 +1,5 @@
 """ Ball:
-Beschreibt die Klasse Ball.
+Beschreibt die Ball-Klasse.
 """
 
 """ Imports: """
@@ -27,7 +27,7 @@ class Ball(gg.Actor):
         #print(self.getDirection())
         
     
-    def get_exit_angle(self, collision_type=BORDER, paddle=None):
+    def get_exit_angle(self, paddle=None):
         original_angle = self.getDirection()
         
         # Ost-West-Kollision:
