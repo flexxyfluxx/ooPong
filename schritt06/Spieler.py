@@ -8,7 +8,7 @@ Beschreibt die Spieler-Klasse.
 erzeugt das Spieler-Objekt, welches Namen, Punktzahl und Highscore besitzt.
 """
 class Spieler():
-    def __init_(self, name):
+    def __init__(self, name):
         self.name = name
         self.points = 0
         self.highscore = 0

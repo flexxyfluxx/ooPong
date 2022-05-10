@@ -39,4 +39,4 @@ class Collider(gg.GGActorCollisionListener):
                         else 260
         
         ball.setDirection(exit_angle)
-        return 10
+        return 20
