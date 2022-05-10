@@ -45,13 +45,20 @@ if __name__ == "__main__":
     schlaeger_1 = Schlaeger(KEY['w'], KEY['s'], the_ball)
     schlaeger_2 = Schlaeger(KEY['arr_up'], KEY['arr_dn'], the_ball)
     
-    player_1 = Spieler(inputString("Name Spieler 1:"))
-    player_2 = Spieler(inputString("Name Spieler 2:"))
+    p1_name = inputString("Name Spieler 1: (Weniger als 24 Zeichen!)")
+    while len(p1_name) > 24:
+        p1_name = inputString("Name Spieler 1: (Weniger als 24 Zeichen!)")
+        
+    p2_name = inputString("Name Spieler 2: (Weniger als 24 Zeichen!)")
+    while len(p2_name) > 24:
+        p2_name = inputString("Name Spieler 2: (Weniger als 24 Zeichen!)")
+
+    player_1 = Spieler(p1_name)
+    player_2 = Spieler(p2_name)
     
-    za_anzeige = Anzeige(main_grid, player_1, player_2)
-    za_anzeige.print_player_names()
+    the_anzeige = Anzeige(main_grid, player_1, player_2)
     
-    the_ball.bind_anzeige(za_anzeige)
+    the_ball.bind_anzeige(the_anzeige)
 
     location_s1 = gg.Location(50, WINDOW_HEIGHT // 2)
     location_s2 = gg.Location(WINDOW_WIDTH - 50, WINDOW_HEIGHT // 2)
@@ -81,7 +88,12 @@ if __name__ == "__main__":
     gg.addStatusBar(20)
     gg.setStatusText("Press SPACE to start!")
     gg.show()
-    za_anzeige.show_scoreboard()
+    the_anzeige.show_scoreboard()
+    #"""
+    the_anzeige.show_player_names()
+    """
+    the_anzeige.print_player_names()
+    #"""
     
     await_keypress(KEY['space'])
     
