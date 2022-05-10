@@ -12,7 +12,8 @@ from constants_etc import *
 Erzeugt ein Schläger-Objekt, das sich auf dem Feld auf und ab bewegt.
 """
 class Schlaeger(gg.Actor):
-    def __init__(self, key_up, key_dn, ball, max_y = WINDOW_HEIGHT): # Wird kein max_y-Wert gegeben, ist der Standard, dass der untere Rand gerade berührt wird.
+    def __init__(self, key_up, key_dn, ball, max_y = WINDOW_HEIGHT):
+        # Wird kein max_y-Wert gegeben, wird der Randwert des Fensters benutzt.
         gg.Actor.__init__(self, SPRITE['schlaeger'])
         
         self.max_y = max_y

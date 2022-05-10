@@ -1,10 +1,13 @@
 """ Universal Constants Module:
 Enthält die ganzen Dicts und so.
-Hier werden außerdem die Settings aus der INI geparsed und Konstanten zugewiesen.
+Hier werden außerdem die Settings aus der INI geparsed
+und Konstanten zugewiesen.
 """
 
 """ Imports: """
-from os.path import abspath # oh nyo the namespace OwO~ onwy impowt whats neccessawy~~ rawr :3
+from os.path import abspath
+
+# oh nyo the namespace OwO~ onwy impowt whats neccessawy~~ rawr :3
 from gamegrid import getKeyCodeWait
 import ConfigParser as cp # o_o realization
 
@@ -26,7 +29,8 @@ BALL_SPEED = parser.getint('GameSettings', 'BALL_SPEED')
 """ Dict mit den Paths zu den relevanten Bildern: """
 SPRITE = {
     "schlaeger": abspath("./sprites/schlaeger_small.jpg"),
-    "ball": abspath("./sprites/ball.jpg") # fwd slashes, da \b zu nem specialchar gemacht wird(?????)
+    "ball": abspath("./sprites/ball.jpg")
+    # fwd slashes, da \b zu nem specialchar gemacht wird(?????)
 }
 
 """ Richtungskonstanten: """
@@ -83,7 +87,9 @@ KEY = {
     '9': 57
 }
 
-START_DIRECTIONS = list(range(0, 60)) + list(range(120, 240)) + list(range(300, 359))
+START_DIRECTIONS = list(range(0, 60)) \
+                + list(range(120, 240)) \
+                + list(range(300, 359))
 
 """ Blanke Objekte des Typs 'object' sind nur mit sich selbst identisch.
 Hiermit kann ich arbiträre Konstanten definieren, die zB. hier nur zur

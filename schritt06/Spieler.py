@@ -11,7 +11,7 @@ class Spieler():
     def __init__(self, name):
         self.name = name
         self.points = 0
-        self.highscore = 0
+        self.highscore = 0 # you are useless. you are nothing to me.
     
     def get_name(self):
         return self.name

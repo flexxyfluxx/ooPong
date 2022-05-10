@@ -37,18 +37,16 @@ def await_keypress(key_code):
 
 # -------- MAIN --------
 if __name__ == "__main__":
-    show_debug_bar = True
-    main_grid = gg.makeGameGrid(
-        WINDOW_WIDTH, WINDOW_HEIGHT, 1, None, None,
-        show_debug_bar, keyPressed = event_key_press
-    )
+    show_debug_bar = False
+    main_grid = gg.makeGameGrid(WINDOW_WIDTH, WINDOW_HEIGHT, 1, None, None,
+                            show_debug_bar, keyPressed = event_key_press)
     
     the_ball = Ball()
     schlaeger_1 = Schlaeger(KEY['w'], KEY['s'], the_ball)
     schlaeger_2 = Schlaeger(KEY['arr_up'], KEY['arr_dn'], the_ball)
     
-    player_1 = Spieler("Hansebub")
-    player_2 = Spieler("Seesenfritz")
+    player_1 = Spieler(inputString("Name Spieler 1:"))
+    player_2 = Spieler(inputString("Name Spieler 2:"))
     
     za_anzeige = Anzeige(main_grid, player_1, player_2)
     za_anzeige.print_player_names()
