@@ -45,18 +45,11 @@ if __name__ == "__main__":
     schlaeger_1 = Schlaeger(KEY['w'], KEY['s'], the_ball)
     schlaeger_2 = Schlaeger(KEY['arr_up'], KEY['arr_dn'], the_ball)
     
-    p1_name = inputString("Name Spieler 1: (Weniger als 24 Zeichen!")
-    while len(p1_name) > 24:
-        p1_name = inputString("Name Spieler 1: (Weniger als 24 Zeichen!")
-        
-    p2_name = inputString("Name Spieler 2: (Weniger als 24 Zeichen!")
-    while len(p2_name) > 24:
-        p2_name = inputString("Name Spieler 2: (Weniger als 24 Zeichen!")
-
-    player_1 = Spieler(p1_name)
-    player_2 = Spieler(p2_name)
+    player_1 = Spieler(inputString("Name Spieler 1:"))
+    player_2 = Spieler(inputString("Name Spieler 2:"))
     
     za_anzeige = Anzeige(main_grid, player_1, player_2)
+    za_anzeige.print_player_names()
     
     the_ball.bind_anzeige(za_anzeige)
 
@@ -89,11 +82,6 @@ if __name__ == "__main__":
     gg.setStatusText("Press SPACE to start!")
     gg.show()
     za_anzeige.show_scoreboard()
-    #"""
-    za_anzeige.show_player_names()
-    """
-    za_anzeige.print_player_names()
-    #"""
     
     await_keypress(KEY['space'])
     
