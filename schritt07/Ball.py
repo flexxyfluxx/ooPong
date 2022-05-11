@@ -8,6 +8,8 @@ from constants_etc import * # Konstanten in ein eigenes Modul verkapselt, um die
 from Anzeige import *
 from random import randint, choice
 from time import sleep
+from math import tan
+from Schlaeger import *
 
 """ class Ball:
 Beschreibt einen Ball, der sich bewegt und an den Schlägern abprallt.
@@ -22,6 +24,8 @@ class Ball(gg.Actor):
         self.max_y = max_y - 10
         self._start_pos = gg.Location((self.min_x + self.max_x // 2), (self.min_y + self.max_y // 2))
         self._anzeige = None
+        self.schlaeger_1 = None
+        self.schlaeger_2 = None
         
         self._point = False
     
@@ -29,7 +33,30 @@ class Ball(gg.Actor):
         if self._point:
             sleep(0.75)
             self._point = False
+        
+        self.setDirection(self.get_exit_angle())
+        #print(self.getDirection())
+        
+        # collision class is obsolete?? o_o
+        self._next_x = self.getNextMoveLocation().x
+        if self.getNextMoveLocation().x < self.schlaeger_1.getX():
+            self._intercept_factor = abs(self.getX() - 50) / abs(self.getX() - self._next_x)
+            self._ball_paddle_intercept = self.getY() - tan((self.getDirection()) % 360) * self._intercept_factor
+            print(self._ball_paddle_intercept)
+            
+            if self.schlaeger_1.getY() + 82 > self._ball_paddle_intercept > self.schlaeger_1.getY() - 82:
+                self.setLocation(self.schlaeger_1.getX(), int(self._ball_paddle_intercept))
+        
+        elif self.getNextMoveLocation().x > self.schlaeger_2.getX():
+            self._intercept_factor = abs(self.getX() - (self.max_x - 50)) / abs(self.getX() - self._next_x)
+            self._ball_paddle_intercept = self.getX() + tan((self.getDirection()) % 360) * self._intercept_factor
+            print(self._ball_paddle_intercept)
+            
+            if self.schlaeger_2.getY() + 82 > self._ball_paddle_intercept > self.schlaeger_2.getY() - 82:
+                self.setLocation(self.schlaeger_2.getX(), int(self._ball_paddle_intercept))
+        
         self.move(BALL_SPEED)
+        
         
         if self.getX() <= self.min_x and not self._point:
             self._do_goal_things(WEST)
@@ -41,10 +68,6 @@ class Ball(gg.Actor):
             self.setLocation(self._start_pos)
             self.setDirection(choice(START_DIRECTIONS))
             self._point = True
-            
-        
-        self.setDirection(self.get_exit_angle())
-        #print(self.getDirection())
         
     
     def get_exit_angle(self):
@@ -110,3 +133,10 @@ class Ball(gg.Actor):
         
     def bind_anzeige(self, anzeige):
         self._anzeige = anzeige
+    
+    def bind_schlaeger(self, schlaeger_1, schlaeger_2):
+        if isinstance(schlaeger_1, Schlaeger) and isinstance(schlaeger_2, Schlaeger):
+            self.schlaeger_1 = schlaeger_1
+            self.schlaeger_2 = schlaeger_2
+            return
+        print("[ERROR] bind_schlaeger nimmt genau 2 Schlaeger-Objekte (und self)!")

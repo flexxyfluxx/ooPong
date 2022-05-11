@@ -62,6 +62,7 @@ def play_game(show_debug_bar, obstacles = False):
     the_anzeige = Anzeige(main_grid, player_1, player_2)
     
     the_ball.bind_anzeige(the_anzeige)
+    the_ball.bind_schlaeger(schlaeger_1, schlaeger_2)
 
     location_s1 = gg.Location(50, WINDOW_HEIGHT // 2)
     location_s2 = gg.Location(WINDOW_WIDTH - 50, WINDOW_HEIGHT // 2)
@@ -69,11 +70,11 @@ def play_game(show_debug_bar, obstacles = False):
     gg.addActor(schlaeger_2, location_s2)
     
     location_ball = gg.Location(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
-    """
+    #"""
     gg.addActor(the_ball, location_ball, choice(START_DIRECTIONS))
     """
     # Specific Angle Debug
-    gg.addActor(the_ball, location_ball, 80)
+    gg.addActor(the_ball, location_ball, 0)
     #"""
     
     ball_collider = Collider()
@@ -92,7 +93,7 @@ def play_game(show_debug_bar, obstacles = False):
         the_ball.addCollisionActor(obstacle_1)
         the_ball.addCollisionActor(obstacle_2)
 
-    gg.setSimulationPeriod(10) # entspricht ~60tps
+    gg.setSimulationPeriod(10)
     
     gg.setTitle("Ponk!")
     gg.addStatusBar(20)
@@ -113,4 +114,4 @@ def play_game(show_debug_bar, obstacles = False):
 
 # -------- MAIN --------
 if __name__ == "__main__":
-    play_game(True, True)
+    play_game(True)

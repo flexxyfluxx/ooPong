@@ -22,6 +22,7 @@ WINDOW_WIDTH = parser.getint('WindowDimensions', 'WINDOW_WIDTH')
 WINDOW_WIDTH = 200 if WINDOW_WIDTH < 200 else WINDOW_WIDTH
 
 PADDLE_SPEED = parser.getint('GameSettings', 'PADDLE_SPEED')
+PADDLE_ACCEL_LIMIT = parser.getfloat('GameSettings', 'PADDLE_ACCEL_LIMIT')
 BALL_SPEED = parser.getint('GameSettings', 'BALL_SPEED')
 # ----- ENDE SETTINGS LADEN -----
 

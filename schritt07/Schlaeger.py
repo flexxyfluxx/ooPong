@@ -16,8 +16,8 @@ class Schlaeger(gg.Actor):
         # Wird kein max_y-Wert gegeben, wird der Randwert des Fensters benutzt.
         gg.Actor.__init__(self, SPRITE['schlaeger'])
         
-        self.max_y = max_y
-        self.min_y = 0
+        self.max_y = max_y - 82
+        self.min_y = 82
         
         self.key_up = key_up
         self.key_dn = key_dn
@@ -38,10 +38,12 @@ class Schlaeger(gg.Actor):
         #"""
     
     def _do_border_things(self):
-        if self.getY() <= self.min_y + 82:
-            self.setY(self.min_y + 82)
-        elif self.getY() >= self.max_y - 82:
-            self.setY(self.max_y - 82)
+        if self.getY() <= self.min_y:
+            self.setY(self.min_y)
+            self._accel = 1
+        elif self.getY() >= self.max_y:
+            self.setY(self.max_y)
+            self._accel = 1
     
     def move(self):
         """
@@ -51,6 +53,8 @@ class Schlaeger(gg.Actor):
         Richtungstaste noch gedrückt hält.
         -> höhere Wechselpräzision
         """
+        if self._accel > PADDLE_ACCEL_LIMIT: self._accel = PADDLE_ACCEL_LIMIT
+        
         if gg.isKeyPressed(self.key_up) and gg.isKeyPressed(self.key_dn):
             if self._has_momentum:
                     self._accel = 1
@@ -61,7 +65,7 @@ class Schlaeger(gg.Actor):
             elif self._last_direction == SOUTH:
                 self.setY(self.getY() - int(PADDLE_SPEED * self._accel))
                 
-            self._accel *= 1.15 if self._accel < 1.75 else self._accel
+            self._accel *= 1.1 if self._accel < PADDLE_ACCEL_LIMIT else PADDLE_ACCEL_LIMIT
             self._has_momentum = False
                 
         
@@ -70,7 +74,7 @@ class Schlaeger(gg.Actor):
                 self._accel = 1
             self.setY(self.getY() - int(PADDLE_SPEED * self._accel))
             self._last_direction = NORTH
-            self._accel *= 1.15 if self._accel < 1.75 else self._accel
+            self._accel *= 1.1 if self._accel < PADDLE_ACCEL_LIMIT else PADDLE_ACCEL_LIMIT
             self._has_momentum = True
         
         elif gg.isKeyPressed(self.key_dn) and not gg.isKeyPressed(self.key_up):
@@ -78,7 +82,7 @@ class Schlaeger(gg.Actor):
                 self._accel = 1
             self.setY(self.getY() + int(PADDLE_SPEED * self._accel))
             self._last_direction = SOUTH
-            self._accel *= 1.15 if self._accel < 1.75 else self._accel
+            self._accel *= 1.1 if self._accel < PADDLE_ACCEL_LIMIT else PADDLE_ACCEL_LIMIT
             self._has_momentum = True
         
         else:
@@ -86,10 +90,11 @@ class Schlaeger(gg.Actor):
             self._last_direction = None
             self._has_momentum = False
             self._accel = 1
-        
+        """
         print(self._accel)
         print(self._has_momentum)
         print("---")
+        #"""
         
 # -------- MAIN --------
 if __name__ == "__main__":
