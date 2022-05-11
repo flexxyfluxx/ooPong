@@ -47,7 +47,7 @@ class Ball(gg.Actor):
         #print(self.getDirection())
         
     
-    def get_exit_angle(self, paddle=None):
+    def get_exit_angle(self):
         original_angle = self.getDirection()
         
         """ nur zu Debug-Zwecken: Da eine Kollision an der Ost-/Westwand einem Tor entspricht, ist keine Kollision nötig.
@@ -67,6 +67,7 @@ class Ball(gg.Actor):
             chance = randint(1,2)
             if original_angle in range(70, 90) or original_angle in range(250, 270) and chance == 1:
                 return int((original_angle - 45) % 360)
+            
             if original_angle in range(90, 110) or original_angle in range(270, 290) and chance == 1:
                 return int((original_angle - 225) % 360)
             
@@ -107,7 +108,5 @@ class Ball(gg.Actor):
             self._anzeige.scoreboard.show()
             sleep(0.25)
         
-        
-            
     def bind_anzeige(self, anzeige):
         self._anzeige = anzeige

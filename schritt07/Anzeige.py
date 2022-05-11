@@ -15,7 +15,7 @@ Erzeugt die Anzeige, die die Punktzahlen der Spieler anzeigt.
 class Anzeige():
     def __init__(self, window, player_1, player_2):
         self.window = window
-        self.wndw_bg = window.getBg()
+        self.wndw_bg = window.getBg() # you are useless. you serve no purpose. why do you exist? who created you?
         self.wndw_width = window.getPgWidth()
         self.wndw_height = window.getPgHeight()
         
@@ -32,7 +32,7 @@ class Anzeige():
         self._p2_plaque = gg.GGTextField(window, player_2.get_name(), gg.Location(0, 0), False)
         self._p2_plaque.setTextColor(j_Color.white)
         self._p2_plaque.setFont(j_Font("Arial", j_Font.BOLD, 32))
-        self._p2_plaque.setLocation(gg.Location((self.wndw_width - self._p2_plaque.getTextWidth()) - 64, self.wndw_height - 20))
+        self._p2_plaque.setLocation(gg.Location(self.wndw_width - self._p2_plaque.getTextWidth() - 64, self.wndw_height - 20))
         
         self.update_scoreboard()
         
@@ -57,7 +57,7 @@ class Anzeige():
     
     def print_player_names(self):
         print("SPIELER 1: "+self.player_1.get_name() \
-        + "\nSPIELER 2: "+self.player_2.get_name())
+            + "\nSPIELER 2: "+self.player_2.get_name())
         
     def show_player_names(self):
         self._p1_plaque.show()

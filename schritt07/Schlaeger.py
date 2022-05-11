@@ -25,6 +25,9 @@ class Schlaeger(gg.Actor):
         self._last_direction = None
         
         self._ball = ball
+        
+        self._accel = 0
+        self._recent_turn = False
     
     def act(self):
         self._do_border_things()
@@ -49,22 +52,44 @@ class Schlaeger(gg.Actor):
         -> höhere Wechselpräzision
         """
         if gg.isKeyPressed(self.key_up) and gg.isKeyPressed(self.key_dn):
+            if self._has_momentum:
+                    self._accel = 1
+            
             if self._last_direction == NORTH:
-                self.setY(self.getY() + PADDLE_SPEED)
+                self.setY(self.getY() + int(PADDLE_SPEED * self._accel))
+                
             elif self._last_direction == SOUTH:
-                self.setY(self.getY() - PADDLE_SPEED)
+                self.setY(self.getY() - int(PADDLE_SPEED * self._accel))
+                
+            self._accel *= 1.15 if self._accel < 1.75 else self._accel
+            self._has_momentum = False
+                
         
         elif gg.isKeyPressed(self.key_up) and not gg.isKeyPressed(self.key_dn):
-            self.setY(self.getY() - PADDLE_SPEED)
+            if  self._last_direction == SOUTH:
+                self._accel = 1
+            self.setY(self.getY() - int(PADDLE_SPEED * self._accel))
             self._last_direction = NORTH
+            self._accel *= 1.15 if self._accel < 1.75 else self._accel
+            self._has_momentum = True
         
         elif gg.isKeyPressed(self.key_dn) and not gg.isKeyPressed(self.key_up):
-            self.setY(self.getY() + PADDLE_SPEED)
+            if  self._last_direction == NORTH:
+                self._accel = 1
+            self.setY(self.getY() + int(PADDLE_SPEED * self._accel))
             self._last_direction = SOUTH
+            self._accel *= 1.15 if self._accel < 1.75 else self._accel
+            self._has_momentum = True
         
         else:
             # Falls keine Taste gedrückt: Letzte Richtung clearen.
             self._last_direction = None
+            self._has_momentum = False
+            self._accel = 1
+        
+        print(self._accel)
+        print(self._has_momentum)
+        print("---")
         
 # -------- MAIN --------
 if __name__ == "__main__":
