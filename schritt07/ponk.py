@@ -11,6 +11,7 @@ from constants_etc import *
 from random import randint, choice
 from Anzeige import *
 from Spieler import *
+from main import Cfg
 from DumbSchlaeger import *
 
 # ----- DEFINITIONSBEREICH -----
@@ -36,17 +37,17 @@ def await_keypress(key_code):
         pass
 
 def play_game(show_debug_bar, obstacles = False):
-    main_grid = gg.makeGameGrid(WINDOW_WIDTH, WINDOW_HEIGHT, 1, None, None,
-                            show_debug_bar, keyPressed = event_key_press)
+    main_grid = gg.makeGameGrid(Cfg.WINDOW_WIDTH, Cfg.WINDOW_HEIGHT, 1, None, None,
+                                        show_debug_bar, keyPressed = event_key_press)
     
     the_ball = Ball()
     schlaeger_1 = Schlaeger(KEY['w'], KEY['s'], the_ball)
     schlaeger_2 = Schlaeger(KEY['arr_up'], KEY['arr_dn'], the_ball)
     if obstacles:
-        obstacle_1 = DumbSchlaeger(WINDOW_HEIGHT)
-        obstacle_2 = DumbSchlaeger(WINDOW_HEIGHT)
-        gg.addActor(obstacle_1, gg.Location(2 * WINDOW_WIDTH // 5, WINDOW_HEIGHT // 2), NORTH)
-        gg.addActor(obstacle_2, gg.Location(3 * WINDOW_WIDTH // 5, WINDOW_HEIGHT // 2), SOUTH)
+        obstacle_1 = DumbSchlaeger(Cfg.WINDOW_HEIGHT)
+        obstacle_2 = DumbSchlaeger(Cfg.WINDOW_HEIGHT)
+        gg.addActor(obstacle_1, gg.Location(2 * Cfg.WINDOW_WIDTH // 5, Cfg.WINDOW_HEIGHT // 2), NORTH)
+        gg.addActor(obstacle_2, gg.Location(3 * Cfg.WINDOW_WIDTH // 5, Cfg.WINDOW_HEIGHT // 2), SOUTH)
     
     p1_name = inputString("Name Spieler 1: (Weniger als 24 Zeichen!)")
     while len(p1_name) > 24:
@@ -64,12 +65,12 @@ def play_game(show_debug_bar, obstacles = False):
     the_ball.bind_anzeige(the_anzeige)
     the_ball.bind_schlaeger(schlaeger_1, schlaeger_2)
 
-    location_s1 = gg.Location(50, WINDOW_HEIGHT // 2)
-    location_s2 = gg.Location(WINDOW_WIDTH - 50, WINDOW_HEIGHT // 2)
+    location_s1 = gg.Location(50, Cfg.WINDOW_HEIGHT // 2)
+    location_s2 = gg.Location(Cfg.WINDOW_WIDTH - 50, Cfg.WINDOW_HEIGHT // 2)
     gg.addActor(schlaeger_1, location_s1)
     gg.addActor(schlaeger_2, location_s2)
     
-    location_ball = gg.Location(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
+    location_ball = gg.Location(Cfg.WINDOW_WIDTH // 2, Cfg.WINDOW_HEIGHT // 2)
     #"""
     gg.addActor(the_ball, location_ball, choice(START_DIRECTIONS))
     """

@@ -5,26 +5,8 @@ und Konstanten zugewiesen.
 """
 
 """ Imports: """
-from os.path import abspath
-
-# oh nyo the namespace OwO~ onwy impowt whats neccessawy~~ rawr :3
+from os.path import abspath # oh nyo the namespace OwO~ onwy impowt whats neccessawy~~ rawr :3
 from gamegrid import getKeyCodeWait
-import ConfigParser as cp # o_o realization
-
-# ----- SETTINGS VON INI LADEN -----
-parser = cp.ConfigParser()
-parser.read("settings.ini")
-
-WINDOW_HEIGHT = parser.getint('WindowDimensions', 'WINDOW_HEIGHT')
-WINDOW_HEIGHT = 200 if WINDOW_HEIGHT < 200 else WINDOW_HEIGHT
-
-WINDOW_WIDTH = parser.getint('WindowDimensions', 'WINDOW_WIDTH')
-WINDOW_WIDTH = 200 if WINDOW_WIDTH < 200 else WINDOW_WIDTH
-
-PADDLE_SPEED = parser.getint('GameSettings', 'PADDLE_SPEED')
-PADDLE_ACCEL_LIMIT = parser.getfloat('GameSettings', 'PADDLE_ACCEL_LIMIT')
-BALL_SPEED = parser.getint('GameSettings', 'BALL_SPEED')
-# ----- ENDE SETTINGS LADEN -----
 
 # ----- KONSTANTEN -----
 """ Dict mit den Paths zu den relevanten Bildern: """

@@ -10,12 +10,13 @@ from random import randint, choice
 from time import sleep
 from math import tan
 from Schlaeger import *
+from main import Cfg
 
 """ class Ball:
 Beschreibt einen Ball, der sich bewegt und an den Schlägern abprallt.
 """
 class Ball(gg.Actor):
-    def __init__(self, min_x = 0, min_y = 0, max_x = WINDOW_WIDTH, max_y = WINDOW_HEIGHT):
+    def __init__(self, min_x = 0, min_y = 0, max_x = Cfg.WINDOW_WIDTH, max_y = Cfg.WINDOW_HEIGHT):
         gg.Actor.__init__(self, SPRITE['ball'])
         # Da der Ball ca. 20x20px groß ist, werden die Minmax-Werte jw. entsprechend um 10 verschoben.
         self.min_x = min_x + 10
@@ -37,9 +38,9 @@ class Ball(gg.Actor):
         self.setDirection(self.get_exit_angle())
         #print(self.getDirection())
         
-        # collision class is obsolete?? o_o
+        """# collision class is obsolete?? o_o
         self._next_x = self.getNextMoveLocation().x
-        if self.getNextMoveLocation().x < self.schlaeger_1.getX():
+        if self.getX() + ((self.getNextMoveLocation().x - self.getX()) / 5 * Cfg.BALL_SPEED) < self.schlaeger_1.getX():
             self._intercept_factor = abs(self.getX() - 50) / abs(self.getX() - self._next_x)
             self._ball_paddle_intercept = self.getY() - tan((self.getDirection()) % 360) * self._intercept_factor
             print(self._ball_paddle_intercept)
@@ -47,15 +48,15 @@ class Ball(gg.Actor):
             if self.schlaeger_1.getY() + 82 > self._ball_paddle_intercept > self.schlaeger_1.getY() - 82:
                 self.setLocation(self.schlaeger_1.getX(), int(self._ball_paddle_intercept))
         
-        elif self.getNextMoveLocation().x > self.schlaeger_2.getX():
+        elif self.getX() + ((self.getNextMoveLocation().x - self.getX()) / 5 * Cfg.BALL_SPEED) > self.schlaeger_2.getX():
             self._intercept_factor = abs(self.getX() - (self.max_x - 50)) / abs(self.getX() - self._next_x)
             self._ball_paddle_intercept = self.getX() + tan((self.getDirection()) % 360) * self._intercept_factor
             print(self._ball_paddle_intercept)
             
             if self.schlaeger_2.getY() + 82 > self._ball_paddle_intercept > self.schlaeger_2.getY() - 82:
                 self.setLocation(self.schlaeger_2.getX(), int(self._ball_paddle_intercept))
-        
-        self.move(BALL_SPEED)
+        """
+        self.move(Cfg.BALL_SPEED)
         
         
         if self.getX() <= self.min_x and not self._point:

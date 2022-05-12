@@ -5,6 +5,7 @@ Hier wird die DumbSchlaeger-Klasse beschrieben.
 """ Imports: """
 import gamegrid as gg
 from constants_etc import *
+from main import Cfg
 
 # --- Definitionsbereich ---
 
@@ -12,7 +13,7 @@ from constants_etc import *
 Erzeugt einen Hindernis-Schläger, der in der Mitte herumgaukelt und sich einfach nur senkrecht hin und her bewegt.
 """
 class DumbSchlaeger(gg.Actor):
-    def __init__(self, max_y):
+    def __init__(self, max_y = Cfg.WINDOW_HEIGHT):
         gg.Actor.__init__(self, SPRITE['schlaeger'])
         
         self.max_y = max_y - 82
