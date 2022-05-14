@@ -9,13 +9,13 @@ from constants_etc import *
 import MainMenu
 import ConfigParser as cp # o_o realization
 import sys
-from Ball import *
-from Anzeige import *
-from Collisions import *
-from DumbSchlaeger import *
-from Schlaeger import *
-from Spieler import *
-from time import sleep
+#from Ball import *
+#from Anzeige import *
+#from Collisions import *
+#from DumbSchlaeger import *
+#from Schlaeger import *
+#from Spieler import *
+#from time import sleep
 from java.awt.event import KeyListener
 from ponk import *
 
@@ -69,9 +69,9 @@ def onclick_play(event, menu):
     #"""
 
 def onclick_obstacles(event, menu):
-    temp_settings['obstacles'] = False if config.get_obstacle_state() \
+    temp_btn_settings['obstacles'] = False if temp_btn_settings['obstacles'] \
                             else True
-    menu.jbtn_obstacles.setText("An" if temp_settings['obstacles'] else "Aus")
+    menu.jbtn_obstacles.setText("An" if temp_btn_settings['obstacles'] else "Aus")
     
 def onclick_kbind_left_up(event, menu):
     menu.key = 1
@@ -86,6 +86,12 @@ def onclick_kbind_right_dn(event, menu):
     menu.key = 4
 
 def onclick_save_settings(event, menu):
+    # Versuche, die geg. Werte als Ints zu speichern.
+    # So oder so wird der gespeicherte Wert wieder ins Textfield geladen.
+    # zB. Textfield enthält "236": 236 wird gespeichert;
+    #   Feld enthält "236.52": 236 wird gespeichert; 236 wird ins Feld geschrieben;
+    #   Feld enthält "Zweihundertsechsunddreißig"; enthielt vorher 200 (bereits gespeichert): \
+    #               200 wird ins Feld geschrieben; bereits gespeicherter Wert bleibt erhalten.
     try:
         config.write_wndw_height(int(menu.jtf_wndw_height.getText()))
     finally:
