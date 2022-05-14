@@ -14,12 +14,12 @@ import javax.swing.event.*;
 public class MainMenu extends JFrame {
   // Anfang Attribute
   // start attributes
-  private JButton jbtn_play = new JButton();
-  private JLabel jLabel1 = new JLabel("PONK!", SwingConstants.CENTER);
+  private JLabel jLabel1 = new JLabel("PONK!", SwingConstants.CENTER);   
+  public JButton jbtn_play = new JButton();
   public JTextField jtf_wndw_height = new JTextField();
   public JTextField jtf_wndw_width = new JTextField();
   public JTextField jtf_ball_speed = new JTextField();
-  public JToggleButton jtb_obstacles = new JToggleButton();
+  public JButton jbtn_obstacles = new JButton();
   private JLabel jLabel2 = new JLabel("Spielfensterhoehe");
   private JLabel jLabel3 = new JLabel("Spielfensterbreite");
   private JLabel jLabel4 = new JLabel("Hindernisse");
@@ -37,6 +37,7 @@ public class MainMenu extends JFrame {
   private JLabel jLabel9 = new JLabel("Links Runter", SwingConstants.CENTER);
   private JLabel jLabel10 = new JLabel("Rechts Runter", SwingConstants.CENTER);
   private JLabel jLabel11 = new JLabel("Anklicken, um Aenderungen vorzunehmen!", SwingConstants.CENTER);
+  public int key = 0;
   // end attributes
   // Ende Attribute
   
@@ -76,7 +77,7 @@ public class MainMenu extends JFrame {
 
     jtf_ball_speed.setBounds(255, 250, 75, 20);
 
-    jtb_obstacles.setBounds(255, 217, 75, 25);
+    jbtn_obstacles.setBounds(255, 217, 75, 25);
 
     jLabel2.setBounds(10, 160, 230, 20);
 
@@ -92,14 +93,14 @@ public class MainMenu extends JFrame {
     cp.add(jtf_wndw_width);
     jtf_ball_speed.setText("");
     cp.add(jtf_ball_speed);
-    jtb_obstacles.setText("Ein/Aus");
-    jtb_obstacles.setMargin(new Insets(2, 2, 2, 2));
-    jtb_obstacles.addActionListener(new ActionListener() { 
+    jbtn_obstacles.setText("Ein/Aus");
+    jbtn_obstacles.setMargin(new Insets(2, 2, 2, 2));
+    jbtn_obstacles.addActionListener(new ActionListener() { 
       public void actionPerformed(ActionEvent evt) { 
-        //jtb_obstacles_ActionPerformed(evt);
+        //jbtn_obstacles_ActionPerformed(evt);
       }
     });
-    cp.add(jtb_obstacles);
+    cp.add(jbtn_obstacles);
     cp.add(jLabel2);
     cp.add(jLabel3);
     cp.add(jLabel4);
@@ -166,8 +167,9 @@ public class MainMenu extends JFrame {
     jLabel11.setBounds(4, 485, 326, 20);
     cp.add(jLabel11);
     // Ende Komponenten
-    
-    //setVisible(true);
+
+    // start components
+    // end components
   } // end of public MainMenu
   
   // start methods
@@ -175,7 +177,8 @@ public class MainMenu extends JFrame {
   // Anfang Methoden
   
   public static void main(String[] args) {
-    new MainMenu();
+    MainMenu menu = new MainMenu();
+    menu.setVisible(true);
   } // end of main
   
   public void jbtn_play_ActionPerformed(ActionEvent evt) {
@@ -183,10 +186,10 @@ public class MainMenu extends JFrame {
     
   } // end of jbtn_play_ActionPerformed
 
-  public void jtb_obstacles_ActionPerformed(ActionEvent evt) {
+  public void jbtn_obstacles_ActionPerformed(ActionEvent evt) {
     // TODO hier Quelltext einfuegen
     
-  } // end of jtb_obstacles_ActionPerformed
+  } // end of jbtn_obstacles_ActionPerformed
 
   public void jbtn_kbind_left_up_ActionPerformed(ActionEvent evt) {
     // TODO hier Quelltext einfuegen

@@ -11,7 +11,6 @@ from constants_etc import *
 from random import randint, choice
 from Anzeige import *
 from Spieler import *
-from main import Cfg
 from DumbSchlaeger import *
 
 # ----- DEFINITIONSBEREICH -----
@@ -37,26 +36,26 @@ def await_keypress(key_code):
         pass
 
 def play_game(show_debug_bar, obstacles = False):
-    main_grid = gg.makeGameGrid(Cfg.WINDOW_WIDTH, Cfg.WINDOW_HEIGHT, 1, None, None,
+    main_grid = gg.makeGameGrid(config.WINDOW_WIDTH, config.WINDOW_HEIGHT, 1, None, None,
                                         show_debug_bar, keyPressed = event_key_press)
     
     the_ball = Ball()
-    schlaeger_1 = Schlaeger(KEY['w'], KEY['s'], the_ball)
-    schlaeger_2 = Schlaeger(KEY['arr_up'], KEY['arr_dn'], the_ball)
+    schlaeger_1 = Schlaeger(config.KEY_LEFT_UP, config.KEY_LEFT_DN, the_ball)
+    schlaeger_2 = Schlaeger(config.KEY_RIGHT_UP, config.KEY_RIGHT_DN, the_ball)
     if obstacles:
-        obstacle_1 = DumbSchlaeger(Cfg.WINDOW_HEIGHT)
-        obstacle_2 = DumbSchlaeger(Cfg.WINDOW_HEIGHT)
-        gg.addActor(obstacle_1, gg.Location(2 * Cfg.WINDOW_WIDTH // 5, Cfg.WINDOW_HEIGHT // 2), NORTH)
-        gg.addActor(obstacle_2, gg.Location(3 * Cfg.WINDOW_WIDTH // 5, Cfg.WINDOW_HEIGHT // 2), SOUTH)
+        obstacle_1 = DumbSchlaeger(config.WINDOW_HEIGHT)
+        obstacle_2 = DumbSchlaeger(config.WINDOW_HEIGHT)
+        gg.addActor(obstacle_1, gg.Location(2 * config.WINDOW_WIDTH // 5, config.WINDOW_HEIGHT // 2), NORTH)
+        gg.addActor(obstacle_2, gg.Location(3 * config.WINDOW_WIDTH // 5, config.WINDOW_HEIGHT // 2), SOUTH)
     
     p1_name = inputString("Name Spieler 1: (Weniger als 24 Zeichen!)")
     while len(p1_name) > 24:
         p1_name = inputString("Name Spieler 1: (Weniger als 24 Zeichen!)")
-        
+    
     p2_name = inputString("Name Spieler 2: (Weniger als 24 Zeichen!)")
     while len(p2_name) > 24:
         p2_name = inputString("Name Spieler 2: (Weniger als 24 Zeichen!)")
-
+    
     player_1 = Spieler(p1_name)
     player_2 = Spieler(p2_name)
     
@@ -65,12 +64,12 @@ def play_game(show_debug_bar, obstacles = False):
     the_ball.bind_anzeige(the_anzeige)
     the_ball.bind_schlaeger(schlaeger_1, schlaeger_2)
 
-    location_s1 = gg.Location(50, Cfg.WINDOW_HEIGHT // 2)
-    location_s2 = gg.Location(Cfg.WINDOW_WIDTH - 50, Cfg.WINDOW_HEIGHT // 2)
+    location_s1 = gg.Location(50, config.WINDOW_HEIGHT // 2)
+    location_s2 = gg.Location(config.WINDOW_WIDTH - 50, config.WINDOW_HEIGHT // 2)
     gg.addActor(schlaeger_1, location_s1)
     gg.addActor(schlaeger_2, location_s2)
     
-    location_ball = gg.Location(Cfg.WINDOW_WIDTH // 2, Cfg.WINDOW_HEIGHT // 2)
+    location_ball = gg.Location(config.WINDOW_WIDTH // 2, config.WINDOW_HEIGHT // 2)
     #"""
     gg.addActor(the_ball, location_ball, choice(START_DIRECTIONS))
     """
@@ -84,7 +83,7 @@ def play_game(show_debug_bar, obstacles = False):
     schlaeger_2.addActorCollisionListener(ball_collider)
     
     the_ball.addActorCollisionListener(ball_collider)
-
+    
     the_ball.addCollisionActor(schlaeger_1)
     the_ball.addCollisionActor(schlaeger_2)
     
@@ -107,12 +106,13 @@ def play_game(show_debug_bar, obstacles = False):
     the_anzeige.print_player_names()
     #"""
     
-    await_keypress(KEY['space'])
-    
-    gg.setStatusText("Press SPACE to pause!")  
-    gg.doRun()
+    gg.setStatusText("Press SPACE to pause!")
 # ----- ENDE DEFINITIONSBEREICH -----
 
 # -------- MAIN --------
 if __name__ == "__main__":
-    play_game(True)
+    play_game(True, True)
+"""
+if __name__ == "ponk":
+    play_game(False, config.get_obstacle_state())
+#"""

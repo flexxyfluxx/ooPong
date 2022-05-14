@@ -7,6 +7,132 @@ und Konstanten zugewiesen.
 """ Imports: """
 from os.path import abspath # oh nyo the namespace OwO~ onwy impowt whats neccessawy~~ rawr :3
 from gamegrid import getKeyCodeWait
+import ConfigParser as cp
+
+# ----- SETTINGS VON INI LADEN -----
+
+class Cfg(): # Dataclass mit den Settings aus der INI.
+    def __init__(self):
+        self.parser = cp.ConfigParser()
+        self.parser.read("settings.ini")
+        
+        self.WINDOW_HEIGHT = self.parser.getint('WindowDimensions', 'WINDOW_HEIGHT')
+        self.WINDOW_HEIGHT = 200 if self.WINDOW_HEIGHT < 200 else self.WINDOW_HEIGHT
+        
+        self.WINDOW_WIDTH = self.parser.getint('WindowDimensions', 'WINDOW_WIDTH')
+        self.WINDOW_WIDTH = 200 if self.WINDOW_WIDTH < 200 else self.WINDOW_WIDTH
+        
+        self.PADDLE_SPEED = self.parser.getint('GameSettings', 'PADDLE_SPEED')
+        self.PADDLE_ACCEL_LIMIT = self.parser.getfloat('GameSettings', 'PADDLE_ACCEL_LIMIT')
+        self.BALL_SPEED = self.parser.getint('GameSettings', 'BALL_SPEED')
+        self.OBSTACLES = self.parser.getboolean('GameSettings', 'OBSTACLES')
+        
+        self.KEY_LEFT_UP =  self.parser.getint('Keybinds', 'LEFT_UP') if self.parser.has_option('Keybinds', 'LEFT_UP') \
+                        else self.parser.getint('DefaultKeybinds', 'LEFT_UP')
+        self.KEY_LEFT_DN = self.parser.getint('Keybinds', 'LEFT_DN') if self.parser.has_option('Keybinds', 'LEFT_DN') \
+                        else self.parser.getint('DefaultKeybinds', 'LEFT_DN')
+        self.KEY_RIGHT_UP = self.parser.getint('Keybinds', 'RIGHT_UP') if self.parser.has_option('Keybinds', 'RIGHT_UP') \
+                        else self.parser.getint('DefaultKeybinds', 'RIGHT_UP')
+        self.KEY_RIGHT_DN = self.parser.getint('Keybinds', 'RIGHT_DN') if self.parser.has_option('Keybinds', 'RIGHT_DN') \
+                        else self.parser.getint('DefaultKeybinds', 'RIGHT_DN')
+    
+    def write_wndw_height(self, new):
+        if not isinstance(new, int):
+            print("[error] Cfg.write_wndw_height: Non-Int value given! Naughty, naughty!")
+            return
+        
+        self.WINDOW_HEIGHT = new
+        self.parser.set('WindowDimensions', 'WINDOW_HEIGHT', new)
+    
+    def get_wndw_height(self):
+        return self.WINDOW_HEIGHT
+        
+    def write_wndw_width(self, new):
+        if not isinstance(new, int):
+            print("[ERROR] Cfg.write_wndw_width: Non-Int value given! Naughty, naughty!")
+            return
+        
+        self.WINDOW_WIDTH = new
+        self.parser.set('WindowDimensions', 'WINDOW_WIDTH', new)
+    
+    def get_wndw_width(self):
+        return self.WINDOW_WIDTH
+    
+    def write_ball_speed(self, new):
+        if not isinstance(new, int):
+            print("[ERROR] Cfg.write_ball_speed: Non-Int value given! Naughty, naughty!")
+            return
+        
+        self.BALL_SPEED = new
+        self.parser.set('GameSettings', 'BALL_SPEED', new)
+    
+    def get_ball_speed(self):
+        return self.BALL_SPEED
+    
+    def write_obstacles(self, new):
+        if not isinstance(new, bool):
+            print("[ERROR] Cfg.write_obstacles: Non-Bool value given! Naughty, naughty!")
+            return
+        
+        self.OBSTACLES = new
+        self.parser.set('GameSettings', 'OBSTACLES', 1 if new else 0)
+    
+    def get_obstacle_state(self):
+        return self.OBSTACLES
+
+    def write_key_left_up(self, new):
+        if not isinstance(new, int):
+            print("[ERROR] Cfg.write_key_left_up: Non-Int value given! Naughty, naughty!")
+            return
+        
+        self.KEY_LEFT_UP = new
+        self.parser.set('Keybinds', 'LEFT_UP', new)
+    
+    def get_key_left_up(self):
+        return self.KEY_LEFT_UP
+    
+    def write_key_left_dn(self, new):
+        if not isinstance(new, int):
+            print("[ERROR] Cfg.write_key_left_dn: Non-Int value given! Naughty, naughty!")
+            return
+        
+        self.KEY_LEFT_DN = new
+        self.parser.set('Keybinds', 'LEFT_DN', new)
+    
+    def get_key_left_dn(self):
+        return self.KEY_LEFT_DN
+    
+    def write_key_right_up(self, new):
+        if not isinstance(new, int):
+            print("[ERROR] Cfg.write_key_right_up: Non-Int value given! Naughty, naughty!")
+            return
+        
+        self.KEY_RIGHT_UP = new
+        self.parser.set('Keybinds', 'RIGHT_UP', new)
+    
+    def get_key_right_up(self):
+        return self.KEY_RIGHT_UP
+    
+    def write_key_right_dn(self, new):
+        if not isinstance(new, int):
+            print("[ERROR] Cfg.write_key_right_dn: Non-Int value given! Naughty, naughty!")
+            return
+        
+        self.KEY_RIGHT_DN = new
+        self.parser.set('Keybinds', 'RIGHT_DN', new)
+    
+    def get_key_right_dn(self):
+        return self.KEY_RIGHT_DN
+    
+    def commit_to_ini(self):
+        fileobj = open('settings.ini', 'w')
+        self.parser.write(fileobj)
+        fileobj.close()
+
+
+config = Cfg()
+
+# ----- ENDE SETTINGS LADEN -----
 
 # ----- KONSTANTEN -----
 """ Dict mit den Paths zu den relevanten Bildern: """

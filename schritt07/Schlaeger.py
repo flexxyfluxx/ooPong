@@ -5,7 +5,6 @@ Hier wird die Schlaeger-Klasse beschrieben.
 """ Imports: """
 import gamegrid as gg
 from constants_etc import *
-from main import Cfg
 
 # --- Definitionsbereich ---
 
@@ -13,7 +12,7 @@ from main import Cfg
 Erzeugt ein Schläger-Objekt, das sich auf dem Feld auf und ab bewegt.
 """
 class Schlaeger(gg.Actor):
-    def __init__(self, key_up, key_dn, ball, max_y = Cfg.WINDOW_HEIGHT):
+    def __init__(self, key_up, key_dn, ball, max_y = config.WINDOW_HEIGHT):
         # Wird kein max_y-Wert gegeben, wird der Randwert des Fensters benutzt.
         gg.Actor.__init__(self, SPRITE['schlaeger'])
         
@@ -32,7 +31,7 @@ class Schlaeger(gg.Actor):
     
     def act(self):
         self._do_border_things()
-        #"""
+        """
         self.setY(self._ball.getY())
         """
         self.move()
@@ -54,36 +53,36 @@ class Schlaeger(gg.Actor):
         Richtungstaste noch gedrückt hält.
         -> höhere Wechselpräzision
         """
-        if self._accel > Cfg.PADDLE_ACCEL_LIMIT: self._accel = Cfg.PADDLE_ACCEL_LIMIT
+        if self._accel > config.PADDLE_ACCEL_LIMIT: self._accel = config.PADDLE_ACCEL_LIMIT
         
         if gg.isKeyPressed(self.key_up) and gg.isKeyPressed(self.key_dn):
             if self._has_momentum:
                     self._accel = 1
             
             if self._last_direction == NORTH:
-                self.setY(self.getY() + int(Cfg.PADDLE_SPEED * self._accel))
+                self.setY(self.getY() + int(config.PADDLE_SPEED * self._accel))
                 
             elif self._last_direction == SOUTH:
-                self.setY(self.getY() - int(Cfg.PADDLE_SPEED * self._accel))
+                self.setY(self.getY() - int(config.PADDLE_SPEED * self._accel))
                 
-            self._accel *= 1.1 if self._accel < Cfg.PADDLE_ACCEL_LIMIT else Cfg.PADDLE_ACCEL_LIMIT
+            self._accel *= 1.1 if self._accel < config.PADDLE_ACCEL_LIMIT else config.PADDLE_ACCEL_LIMIT
             self._has_momentum = False
                 
         
         elif gg.isKeyPressed(self.key_up) and not gg.isKeyPressed(self.key_dn):
             if  self._last_direction == SOUTH:
                 self._accel = 1
-            self.setY(self.getY() - int(Cfg.PADDLE_SPEED * self._accel))
+            self.setY(self.getY() - int(config.PADDLE_SPEED * self._accel))
             self._last_direction = NORTH
-            self._accel *= 1.1 if self._accel < Cfg.PADDLE_ACCEL_LIMIT else Cfg.PADDLE_ACCEL_LIMIT
+            self._accel *= 1.1 if self._accel < config.PADDLE_ACCEL_LIMIT else config.PADDLE_ACCEL_LIMIT
             self._has_momentum = True
         
         elif gg.isKeyPressed(self.key_dn) and not gg.isKeyPressed(self.key_up):
             if  self._last_direction == NORTH:
                 self._accel = 1
-            self.setY(self.getY() + int(Cfg.PADDLE_SPEED * self._accel))
+            self.setY(self.getY() + int(config.PADDLE_SPEED * self._accel))
             self._last_direction = SOUTH
-            self._accel *= 1.1 if self._accel < Cfg.PADDLE_ACCEL_LIMIT else Cfg.PADDLE_ACCEL_LIMIT
+            self._accel *= 1.1 if self._accel < config.PADDLE_ACCEL_LIMIT else config.PADDLE_ACCEL_LIMIT
             self._has_momentum = True
         
         else:

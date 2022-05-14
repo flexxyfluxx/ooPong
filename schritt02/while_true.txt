@@ -1,0 +1,2 @@
+"while True" entspricht nicht der eigentlichen Denkweise des while-Keywords, dass man etwas wiederholt, bis die geg. Condition nicht erfüllt ist.
+Stattdessen impliziert "while True", dass man etwas für alle Ewigkeit wiederholt. Natürlich ist's mit entsprechenden break-Anweisungen semantisch äquivalent mit der Verwendung einer richtigen Condition, aber es ist dennoch eine schlechte Denkweise.

@@ -8,89 +8,124 @@ import ConfigParser as cp
 from constants_etc import *
 import MainMenu
 import ConfigParser as cp # o_o realization
-
-# ----- SETTINGS VON INI LADEN -----
-parser = cp.ConfigParser()
-parser.read("settings.ini")
-class Cfg():
-    WINDOW_HEIGHT = parser.getint('WindowDimensions', 'WINDOW_HEIGHT')
-    WINDOW_HEIGHT = 200 if WINDOW_HEIGHT < 200 else WINDOW_HEIGHT
-    
-    WINDOW_WIDTH = parser.getint('WindowDimensions', 'WINDOW_WIDTH')
-    WINDOW_WIDTH = 200 if WINDOW_WIDTH < 200 else WINDOW_WIDTH
-    
-    PADDLE_SPEED = parser.getint('GameSettings', 'PADDLE_SPEED')
-    PADDLE_ACCEL_LIMIT = parser.getfloat('GameSettings', 'PADDLE_ACCEL_LIMIT')
-    BALL_SPEED = parser.getint('GameSettings', 'BALL_SPEED')
-    OBSTACLES = parser.getboolean('GameSettings', 'OBSTACLES')
-    
-    KEYBINDS = [
-        [
-            parser.getint('Keybinds', 'LEFT_UP') if parser.has_option('Keybinds', 'LEFT_UP') \
-                    else parser.getint('DefaultKeybinds', 'LEFT_UP'),
-            parser.getint('Keybinds', 'LEFT_DN') if parser.has_option('Keybinds', 'LEFT_DN') \
-                    else parser.getint('DefaultKeybinds', 'LEFT_DN')
-        ],
-        [
-            parser.getint('Keybinds', 'RIGHT_UP') if parser.has_option('Keybinds', 'RIGHT_UP') \
-                    else parser.getint('DefaultKeybinds', 'RIGHT_UP'),
-            parser.getint('Keybinds', 'RIGHT_DN') if parser.has_option('Keybinds', 'RIGHT_DN') \
-                    else parser.getint('DefaultKeybinds', 'RIGHT_DN')
-        ]
-    ]
-# ----- ENDE SETTINGS LADEN -----
+import sys
+from Ball import *
+from Anzeige import *
+from Collisions import *
+from DumbSchlaeger import *
+from Schlaeger import *
+from Spieler import *
+from time import sleep
+from java.awt.event import KeyListener
+from ponk import *
 
 # ----- DEFINITIONSBEREICH -----
+
+temp_btn_settings = {
+    'obstacles': config.get_obstacle_state(),
+    'left_up': config.get_key_left_up(),
+    'left_dn': config.get_key_left_dn(),
+    'right_up': config.get_key_right_up(),
+    'right_dn': config.get_key_right_dn()
+}
+
+# Keylistener für das Mainmenu definieren/erstellen
+def kbind_things(event, menu):
+    if menu.key == 1: # Left Up
+        print("Left Up bind registered!")
+        menu.key = 0
+    if menu.key == 2: # Left Down
+        print("Left Down bind registered!")
+        menu.key = 0
+    if self.key == 3: # Right Up
+        print("Right Up bind registered!")
+        menu.key = 0
+    if self.key == 4: # Right Down
+        print("Right Down bind registered!")
+        menu.key = 0
 
 def get_key(dict_, val):
     return [key for key, v in dict_.items() if v == val]
 
-def setup_MainMenu(menu):
-    menu.jtf_wndw_height.setText(str(WINDOW_HEIGHT))
-    menu.jtf_wndw_width.setText(str(WINDOW_WIDTH))
-    menu.jtf_ball_speed.setText(str(BALL_SPEED))
+def setup_mainmenu(menu):
+    menu.jtf_wndw_height.setText(str(config.get_wndw_height()))
+    menu.jtf_wndw_width.setText(str(config.get_wndw_width()))
+    menu.jtf_ball_speed.setText(str(config.get_ball_speed()))
     
-    menu.jtb_obstacles.setText(str(OBSTACLES))
+    menu.jbtn_obstacles.setText("An" if config.get_obstacle_state() else "Aus")
     
-    menu.jbtn_kbind_left_up.setText(get_key(KEY, KEYBINDS[0][0]))
-    menu.jbtn_kbind_left_dn.setText(get_key(KEY, KEYBINDS[0][1]))
-    menu.jbtn_kbind_right_up.setText(get_key(KEY, KEYBINDS[1][0]))
-    menu.jbtn_kbind_right_dn.setText(get_key(KEY, KEYBINDS[1][1]))
+    menu.jbtn_kbind_left_up.setText(str(get_key(KEY, config.get_key_left_up())[0]))
+    menu.jbtn_kbind_left_dn.setText(str(get_key(KEY, config.get_key_left_dn())[0]))
+    menu.jbtn_kbind_right_up.setText(str(get_key(KEY, config.get_key_right_up())[0]))
+    menu.jbtn_kbind_right_dn.setText(str(get_key(KEY, config.get_key_right_dn())[0]))
 
-def onclick_play(event):
-    print("Yey lesgo")
+def onclick_play(event, menu):
+    menu.dispose()
+    del sys.modules['MainMenu']
+    """
+    import ponk
+    """
+    play_game(False, config.get_obstacle_state())
+    #"""
 
-def onclick_obstacles(event):
-    print(menu.jtb_obstacles.getAccessibleContext())
+def onclick_obstacles(event, menu):
+    temp_settings['obstacles'] = False if config.get_obstacle_state() \
+                            else True
+    menu.jbtn_obstacles.setText("An" if temp_settings['obstacles'] else "Aus")
+    
+def onclick_kbind_left_up(event, menu):
+    menu.key = 1
 
-def onclick_save_settings(event):
-    print("Click!")
+def onclick_kbind_left_dn(event, menu):
+    menu.key = 2
 
-def onclick_kbind_left_up(event):
-    pass
+def onclick_kbind_right_up(event, menu):
+    menu.key = 3
 
-def onclick_kbind_left_dn(event):
-    pass
+def onclick_kbind_right_dn(event, menu):
+    menu.key = 4
 
-def onclick_kbind_right_up(event):
-    pass
+def onclick_save_settings(event, menu):
+    try:
+        config.write_wndw_height(int(menu.jtf_wndw_height.getText()))
+    finally:
+        menu.jtf_wndw_height.setText(str(config.get_wndw_height()))
+    
+    try:
+        config.write_wndw_width(int(menu.jtf_wndw_width.getText()))
+    finally:
+        menu.jtf_wndw_width.setText(str(config.get_wndw_width()))
+    
+    try:
+        config.write_ball_speed(int(menu.jtf_ball_speed.getText()))
+    finally:
+         menu.jtf_ball_speed.setText(str(config.get_ball_speed()))
+    
+    config.write_obstacles(temp_btn_settings['obstacles'])
+    config.write_key_left_up(temp_btn_settings['left_up'])
+    config.write_key_left_dn(temp_btn_settings['left_dn'])
+    config.write_key_right_up(temp_btn_settings['right_up'])
+    config.write_key_right_dn(temp_btn_settings['right_dn'])
+    
+    config.commit_to_ini()
 
-def onclick_kbind_right_dn(event):
-    pass
 
 def bind_onclicks(menu):
-    menu.jbtn_play.actionPerformed = onclick_play
-    menu.jtb_obstacles.actionPerformed = onclick_obstacles
-    menu.jbtn_kbind_left_up.actionPerformed = onclick_kbind_left_up
-    menu.jbtn_kbind_left_dn.actionPerformed = onclick_kbind_left_dn
-    menu.jbtn_kbind_right_up.actionPerformed = onclick_kbind_right_up
-    menu.jbtn_kbind_right_dn.actionPerformed = onclick_kbind_right_dn
+    menu.jbtn_play.actionPerformed = lambda event: onclick_play(event, menu)
+    menu.jbtn_obstacles.actionPerformed = lambda event: onclick_obstacles(event, menu)
+    menu.jbtn_save_settings.actionPerformed = lambda event: onclick_save_settings(event, menu)
+    menu.jbtn_kbind_left_up.actionPerformed = lambda event: onclick_kbind_left_up(event, menu)
+    menu.jbtn_kbind_left_dn.actionPerformed = lambda event: onclick_kbind_left_dn(event, menu)
+    menu.jbtn_kbind_right_up.actionPerformed = lambda event: onclick_kbind_right_up(event, menu)
+    menu.jbtn_kbind_right_dn.actionPerformed = lambda event: onclick_kbind_right_dn(event, menu)
 
 # ----- ENDE DEFINITIONSBEREICH -----
     
 # ----- MAIN -----
 if __name__ == "__main__":
     menu = MainMenu()
+    menu.keyPressed = lambda event: kbind_things(event, menu)
+    setup_mainmenu(menu)
     bind_onclicks(menu)
     
     menu.setVisible(True)

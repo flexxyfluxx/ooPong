@@ -6,6 +6,46 @@ import gamegrid as gg
 from Schlaeger import *
 from constants_etc import *
 
+# -------- EINSTELLUNGEN --------
+WINDOW_HEIGHT = 129 # Standard: 600. Werte unter 200 werden im Programmablauf auf 200 gestellt.
+WINDOW_WIDTH = 5 # Standard: 800. Werte unter 200 werden im Programmablauf auf 200 gestellt.
+
+WINDOW_HEIGHT = 800 if WINDOW_HEIGHT < 200 else WINDOW_HEIGHT
+WINDOW_WIDTH = 800 if WINDOW_WIDTH < 200 else WINDOW_WIDTH
+# ----- ENDE EINSTELLUNGEN ------
+
+# DEFINITIONSBEREICH
+def event_key_press(event):
+    """
+    Hört auf Keypresses und verarbeitet diese.
+    """
+    key_codes = gg.getPressedKeyCodes()
+    
+    if KEY['space'] in key_codes:
+        if gg.isRunning():
+            gg.doPause()
+            gg.setStatusText("Press SPACE to unpause!")
+        else:
+            gg.doRun()
+            gg.setStatusText("Press SPACE to pause!")
+    """       
+    if KEY['w'] in key_codes and gg.isKeyPressed(KEY['w']):
+        schlaeger_1.setDirection(NORTH)
+        schlaeger_1.set_course(5)
+        
+    if KEY['s'] in key_codes and gg.isKeyPressed(KEY['s']):
+        schlaeger_1.setDirection(SOUTH)
+        schlaeger_1.set_course(5)
+        
+    if KEY['arr_up'] in key_codes and gg.isKeyPressed(KEY['arr_up']):
+        schlaeger_2.setDirection(NORTH)
+        schlaeger_2.set_course(5)
+        
+    if KEY['arr_dn'] in key_codes and gg.isKeyPressed(KEY['arr_dn']):
+        schlaeger_2.setDirection(SOUTH)
+        schlaeger_2.set_course(5)
+    #"""
+
 # -------- MAIN --------
 if __name__ == "__main__":
     show_debug_bar = True

@@ -8,7 +8,6 @@ from constants_etc import *
 from Spieler import *
 import java.awt.Color as j_Color
 import java.awt.Font as j_Font
-from main import Cfg
 
 """ class Anzeige:
 Erzeugt die Anzeige, die die Punktzahlen der Spieler anzeigt.
