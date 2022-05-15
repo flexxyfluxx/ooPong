@@ -106,7 +106,6 @@ def play_game(show_debug_bar, obstacles = False):
     the_anzeige.print_player_names()
     #"""
     
-    gg.setStatusText("Press SPACE to pause!")
 # ----- ENDE DEFINITIONSBEREICH -----
 
 # -------- MAIN --------
