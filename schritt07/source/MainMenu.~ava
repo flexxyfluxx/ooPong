@@ -49,7 +49,7 @@ public class MainMenu extends JFrame {
     super();
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     int frameWidth = 347; 
-    int frameHeight = 554;
+    int frameHeight = 545;
     setSize(frameWidth, frameHeight);
     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     int x = (d.width - getSize().width) / 2;
@@ -137,7 +137,7 @@ public class MainMenu extends JFrame {
     cp.add(jLabel8);
     jLabel9.setBounds(184, 392, 145, 105);
     cp.add(jLabel9);
-    jSeparator3.setBounds(168, 376, 9, 137);
+    jSeparator3.setBounds(168, 376, 9, 129);
     cp.add(jSeparator3);
     // end components
   } // end of public MainMenu
