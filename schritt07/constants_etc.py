@@ -13,19 +13,19 @@ import ConfigParser as cp
 
 class Cfg(): # Dataclass mit den Settings aus der INI.
     def __init__(self):
-        self.parser = cp.ConfigParser()
-        self.parser.read("settings.ini")
+        self._parser = cp.ConfigParser()
+        self._parser.read("settings.ini")
         
-        self.WINDOW_HEIGHT = self.parser.getint('WindowDimensions', 'WINDOW_HEIGHT')
+        self.WINDOW_HEIGHT = self._parser.getint('WindowDimensions', 'WINDOW_HEIGHT')
         self.WINDOW_HEIGHT = 200 if self.WINDOW_HEIGHT < 200 else self.WINDOW_HEIGHT
         
-        self.WINDOW_WIDTH = self.parser.getint('WindowDimensions', 'WINDOW_WIDTH')
+        self.WINDOW_WIDTH = self._parser.getint('WindowDimensions', 'WINDOW_WIDTH')
         self.WINDOW_WIDTH = 200 if self.WINDOW_WIDTH < 200 else self.WINDOW_WIDTH
         
-        self.PADDLE_SPEED = self.parser.getint('GameSettings', 'PADDLE_SPEED')
-        self.PADDLE_ACCEL_LIMIT = self.parser.getfloat('GameSettings', 'PADDLE_ACCEL_LIMIT')
-        self.BALL_SPEED = self.parser.getint('GameSettings', 'BALL_SPEED')
-        self.OBSTACLES = self.parser.getboolean('GameSettings', 'OBSTACLES')
+        self.PADDLE_SPEED = self._parser.getint('GameSettings', 'PADDLE_SPEED')
+        self.PADDLE_ACCEL_LIMIT = self._parser.getfloat('GameSettings', 'PADDLE_ACCEL_LIMIT')
+        self.BALL_SPEED = self._parser.getint('GameSettings', 'BALL_SPEED')
+        self.OBSTACLES = self._parser.getboolean('GameSettings', 'OBSTACLES')
     
     def write_wndw_height(self, new):
         if new // 1 != new: # Akzeptiere nur Ganzzahlen.
@@ -33,7 +33,7 @@ class Cfg(): # Dataclass mit den Settings aus der INI.
             return
         
         self.WINDOW_HEIGHT = new
-        self.parser.set('WindowDimensions', 'WINDOW_HEIGHT', new)
+        self._parser.set('WindowDimensions', 'WINDOW_HEIGHT', new)
     
     def get_wndw_height(self):
         return self.WINDOW_HEIGHT
@@ -44,7 +44,7 @@ class Cfg(): # Dataclass mit den Settings aus der INI.
             return
         
         self.WINDOW_WIDTH = new
-        self.parser.set('WindowDimensions', 'WINDOW_WIDTH', new)
+        self._parser.set('WindowDimensions', 'WINDOW_WIDTH', new)
     
     def get_wndw_width(self):
         return self.WINDOW_WIDTH
@@ -55,7 +55,7 @@ class Cfg(): # Dataclass mit den Settings aus der INI.
             return
         
         self.BALL_SPEED = new
-        self.parser.set('GameSettings', 'BALL_SPEED', new)
+        self._parser.set('GameSettings', 'BALL_SPEED', new)
     
     def get_ball_speed(self):
         return self.BALL_SPEED
@@ -66,7 +66,7 @@ class Cfg(): # Dataclass mit den Settings aus der INI.
             return
         
         self.OBSTACLES = new
-        self.parser.set('GameSettings', 'OBSTACLES', 1 if new else 0)
+        self._parser.set('GameSettings', 'OBSTACLES', 1 if new else 0)
     
     def get_obstacle_state(self):
         return self.OBSTACLES
@@ -77,14 +77,14 @@ class Cfg(): # Dataclass mit den Settings aus der INI.
             return
         
         self.PADDLE_SPEED = new
-        self.parser.set('GameSettings', 'PADDLE_SPEED', new)
+        self._parser.set('GameSettings', 'PADDLE_SPEED', new)
 
     def get_paddle_speed(self):
         return self.PADDLE_SPEED
     
     def commit_to_ini(self):
         fileobj = open('settings.ini', 'w')
-        self.parser.write(fileobj)
+        self._parser.write(fileobj)
         fileobj.close()
 
 

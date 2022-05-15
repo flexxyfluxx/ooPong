@@ -1,9 +1,9 @@
 ﻿[Files]
-File0=D:\Storage\LK-INF\OOP\ooPong\schritt07\source\MainMenu.java
+File0=C:\GIT\ooPong\schritt07\source\MainMenu.java
 
 [Box:  - MainMenu]
-X=354
-Y=0
+X=273
+Y=51
 MinVis=0
 ShowParameter=4
 SortOrder=0

@@ -100,7 +100,3 @@ class Schlaeger(gg.Actor):
         print(self._has_momentum)
         print("---")
         #"""
-        
-# -------- MAIN --------
-if __name__ == "__main__":
-    pass

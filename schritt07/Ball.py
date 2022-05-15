@@ -24,8 +24,6 @@ class Ball(gg.Actor):
         self.max_y = max_y - 10
         self._start_pos = gg.Location((self.min_x + self.max_x // 2), (self.min_y + self.max_y // 2))
         self._anzeige = None
-        self.schlaeger_1 = None
-        self.schlaeger_2 = None
         
         self._point = False
         
@@ -40,7 +38,7 @@ class Ball(gg.Actor):
         self.setDirection(self.get_exit_angle())
         #print(self.getDirection())
         
-        """# collision class is obsolete?? o_o
+        """# collision class is obsolete?? o_o (nvfm,is still relevant)
         self._next_x = self.getNextMoveLocation().x
         if self.getX() + ((self.getNextMoveLocation().x - self.getX()) / 5 * config.BALL_SPEED) < self.schlaeger_1.getX():
             self._intercept_factor = abs(self.getX() - 50) / abs(self.getX() - self._next_x)
@@ -77,7 +75,7 @@ class Ball(gg.Actor):
     def get_exit_angle(self):
         original_angle = self.getDirection()
         
-        """ nur zu Debug-Zwecken: Da eine Kollision an der Ost-/Westwand einem Tor entspricht, ist keine Kollision nötig.
+        """ nur zu Testzwecken: Da eine Kollision an der Ost-/Westwand einem Tor entspricht, ist keine Kollision nötig.
         # Ost-West-Kollision:
         if ((self.getX() <= self.min_x and original_angle < 270 and original_angle > 90) \
                 or (self.getX() >= self.max_x and (original_angle  < 90 or original_angle > 270))):
@@ -88,21 +86,20 @@ class Ball(gg.Actor):
         # Nord-Süd-Kollision:
         if ((self.getY() <= self.min_y and original_angle < 360 and original_angle > 180) \
                 or (self.getY() >= self.max_y and original_angle < 180)):
+            to_return = int(360 - original_angle) + self.spin
             
             # Falls der Originalwinkel bei Nord-Süd-Kollision steil ist (Aufprallwinkel < 70°),
             # springt der Ball stattdessen im 45°-Winkel weg, um das Spiel zu beschleunigen:
             chance = randint(1,2)
             if original_angle in range(70, 90) or original_angle in range(250, 270) and chance == 1:
-                self.spin = 0
-                return int((original_angle - 45) % 360) + self.spin
+                to_return = int((original_angle - 45) % 360) + self.spin
             
-            if original_angle in range(90, 110) or original_angle in range(270, 290) and chance == 1:
-                self.spin = 0
-                return int((original_angle - 225) % 360) + self.spin
+            elif original_angle in range(90, 110) or original_angle in range(270, 290) and chance == 1:
+                to_return = int((original_angle - 225) % 360) + self.spin
             
             #self.setY(self.min_y)
             self.spin = 0
-            return int(360 - original_angle) + self.spin
+            return to_return
             # Kein Modulo nötig, da der gegebene und der entstehende Winkel nicht über 360 / unter 0 sein können
         
         # Falls keine Kollision vorhanden: Ursprungsrichtung zurückgeben.
@@ -142,9 +139,3 @@ class Ball(gg.Actor):
     def bind_anzeige(self, anzeige):
         self._anzeige = anzeige
     
-    def bind_schlaeger(self, schlaeger_1, schlaeger_2):
-        if isinstance(schlaeger_1, Schlaeger) and isinstance(schlaeger_2, Schlaeger):
-            self.schlaeger_1 = schlaeger_1
-            self.schlaeger_2 = schlaeger_2
-            return
-        print("[ERROR] bind_schlaeger nimmt genau 2 Schlaeger-Objekte (und self)!")

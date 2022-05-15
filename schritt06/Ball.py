@@ -82,7 +82,7 @@ class Ball(gg.Actor):
             print("[ERROR] Dem Ball ist keine Anzeige zugewiesen!")
             return
         
-        elif side == WEST:
+        if side == WEST:
             self._anzeige.player_2.add_points(1)
             """
             self._anzeige.print_score()

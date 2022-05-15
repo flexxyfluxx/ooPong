@@ -111,7 +111,7 @@ def play_game(show_debug_bar, obstacles = False):
 # -------- MAIN --------
 if __name__ == "__main__":
     play_game(True, True)
-"""
+""" # Falls das Spiel durch laden des Moduls gestartet werden soll
 if __name__ == "ponk":
     play_game(False, config.get_obstacle_state())
 #"""
