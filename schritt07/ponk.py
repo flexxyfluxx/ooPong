@@ -40,8 +40,8 @@ def play_game(show_debug_bar, obstacles = False):
                                         show_debug_bar, keyPressed = event_key_press)
     
     the_ball = Ball()
-    schlaeger_1 = Schlaeger(config.KEY_LEFT_UP, config.KEY_LEFT_DN, the_ball)
-    schlaeger_2 = Schlaeger(config.KEY_RIGHT_UP, config.KEY_RIGHT_DN, the_ball)
+    schlaeger_1 = Schlaeger(KEY['w'], KEY['s'], the_ball)
+    schlaeger_2 = Schlaeger(KEY['arr_up'], KEY['arr_dn'], the_ball)
     if obstacles:
         obstacle_1 = DumbSchlaeger(config.WINDOW_HEIGHT)
         obstacle_2 = DumbSchlaeger(config.WINDOW_HEIGHT)

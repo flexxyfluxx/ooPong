@@ -22,11 +22,12 @@ class Schlaeger(gg.Actor):
         self.key_up = key_up
         self.key_dn = key_dn
         
-        self._last_direction = None
+        self._ref_direction = None
+        self.true_direction = None
         
         self._ball = ball
         
-        self._accel = 0
+        self.velocity = 0
         self._recent_turn = False
     
     def act(self):
@@ -40,10 +41,10 @@ class Schlaeger(gg.Actor):
     def _do_border_things(self):
         if self.getY() <= self.min_y:
             self.setY(self.min_y)
-            self._accel = 1
+            self.velocity = 1
         elif self.getY() >= self.max_y:
             self.setY(self.max_y)
-            self._accel = 1
+            self.velocity = 1
     
     def move(self):
         """
@@ -53,45 +54,49 @@ class Schlaeger(gg.Actor):
         Richtungstaste noch gedrückt hält.
         -> höhere Wechselpräzision
         """
-        if self._accel > config.PADDLE_ACCEL_LIMIT: self._accel = config.PADDLE_ACCEL_LIMIT
+        if self.velocity > config.PADDLE_ACCEL_LIMIT: self.velocity = config.PADDLE_ACCEL_LIMIT
         
         if gg.isKeyPressed(self.key_up) and gg.isKeyPressed(self.key_dn):
             if self._has_momentum:
-                    self._accel = 1
+                    self.velocity = 0
             
-            if self._last_direction == NORTH:
-                self.setY(self.getY() + int(config.PADDLE_SPEED * self._accel))
+            if self._ref_direction == NORTH:
+                self.setY(self.getY() + int(config.PADDLE_SPEED / 2 * (1 + self.velocity)))
+                self.true_direction = SOUTH
                 
-            elif self._last_direction == SOUTH:
-                self.setY(self.getY() - int(config.PADDLE_SPEED * self._accel))
+            elif self._ref_direction == SOUTH:
+                self.setY(self.getY() - int(config.PADDLE_SPEED / 2 * (1 + self.velocity)))
+                self.true_direction = NORTH
                 
-            self._accel *= 1.1 if self._accel < config.PADDLE_ACCEL_LIMIT else config.PADDLE_ACCEL_LIMIT
+            self.velocity += 0.1 if self.velocity < config.PADDLE_ACCEL_LIMIT else config.PADDLE_ACCEL_LIMIT
             self._has_momentum = False
-                
         
         elif gg.isKeyPressed(self.key_up) and not gg.isKeyPressed(self.key_dn):
-            if  self._last_direction == SOUTH:
-                self._accel = 1
-            self.setY(self.getY() - int(config.PADDLE_SPEED * self._accel))
-            self._last_direction = NORTH
-            self._accel *= 1.1 if self._accel < config.PADDLE_ACCEL_LIMIT else config.PADDLE_ACCEL_LIMIT
+            if  self._ref_direction == SOUTH:
+                self.velocity = 0
+            self.setY(self.getY() - int(config.PADDLE_SPEED / 2 * (1 + self.velocity)))
+            self._ref_direction = NORTH
+            self.true_direction = NORTH
+            self.velocity += 0.1 if self.velocity < config.PADDLE_ACCEL_LIMIT else config.PADDLE_ACCEL_LIMIT
             self._has_momentum = True
         
         elif gg.isKeyPressed(self.key_dn) and not gg.isKeyPressed(self.key_up):
-            if  self._last_direction == NORTH:
-                self._accel = 1
-            self.setY(self.getY() + int(config.PADDLE_SPEED * self._accel))
-            self._last_direction = SOUTH
-            self._accel *= 1.1 if self._accel < config.PADDLE_ACCEL_LIMIT else config.PADDLE_ACCEL_LIMIT
+            if  self._ref_direction == NORTH:
+                self.velocity = 0
+            self.setY(self.getY() + int(config.PADDLE_SPEED / 2 * (1 + self.velocity)))
+            self._ref_direction = SOUTH
+            self.true_direction = SOUTH
+            self.velocity += 0.1 if self.velocity < config.PADDLE_ACCEL_LIMIT else config.PADDLE_ACCEL_LIMIT
             self._has_momentum = True
         
         else:
             # Falls keine Taste gedrückt: Letzte Richtung clearen.
-            self._last_direction = None
+            self._ref_direction = None
+            self.true_direction = None
             self._has_momentum = False
-            self._accel = 1
+            self.velocity = 0
         """
-        print(self._accel)
+        print(self.velocity)
         print(self._has_momentum)
         print("---")
         #"""

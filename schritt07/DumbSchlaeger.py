@@ -17,9 +17,12 @@ class DumbSchlaeger(gg.Actor):
         
         self.max_y = max_y - 82
         self.min_y = 82
+        self.true_direction = 0
+        self.velocity = 1
     
     def act(self):
         self.move()
+        self.true_direction = self.getDirection()
         
         if self.getY() >= self.max_y and not self.getDirection() == NORTH:
             self.setDirection(NORTH)

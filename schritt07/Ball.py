@@ -30,6 +30,7 @@ class Ball(gg.Actor):
         self._point = False
         
         self._velocity = 0
+        self.spin = 0
     
     def act(self):
         if self._point:
@@ -92,13 +93,16 @@ class Ball(gg.Actor):
             # springt der Ball stattdessen im 45°-Winkel weg, um das Spiel zu beschleunigen:
             chance = randint(1,2)
             if original_angle in range(70, 90) or original_angle in range(250, 270) and chance == 1:
-                return int((original_angle - 45) % 360)
+                self.spin = 0
+                return int((original_angle - 45) % 360) + self.spin
             
             if original_angle in range(90, 110) or original_angle in range(270, 290) and chance == 1:
-                return int((original_angle - 225) % 360)
+                self.spin = 0
+                return int((original_angle - 225) % 360) + self.spin
             
             #self.setY(self.min_y)
-            return int(360 - original_angle)
+            self.spin = 0
+            return int(360 - original_angle) + self.spin
             # Kein Modulo nötig, da der gegebene und der entstehende Winkel nicht über 360 / unter 0 sein können
         
         # Falls keine Kollision vorhanden: Ursprungsrichtung zurückgeben.
