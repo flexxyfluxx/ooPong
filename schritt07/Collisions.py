@@ -20,8 +20,16 @@ class Collider(gg.GGActorCollisionListener):
     def collide(self, ball, schlaeger):
         original_angle = ball.getDirection()
         
+        # Berechne Austrittswinkel mitsamt Modifikationen:
         exit_angle =  int((180 - original_angle) % 360) + randint(-10, 10) + ball.spin
         ball.spin = 0
+        
+        """
+        Wird der Ball angeschnitten (d.h. der Schläger bewegt sich beim Aufschlag),
+        bekommt er je nach Geschwindigkeit und Richtung des Schlägers eine Drehung.
+        Trifft er dann auf eine Oberfläche, wird diese Drehung aufgebraucht und der
+        Austrittswinkel entsprechend modifiziert.
+        """
         if (schlaeger.true_direction == NORTH and original_angle % 360 in range(90, 270)) \
                 or schlaeger.true_direction == SOUTH and original_angle % 360 not in range(90, 270):
             ball.spin = int(schlaeger.velocity * 10)
@@ -30,9 +38,11 @@ class Collider(gg.GGActorCollisionListener):
                 or schlaeger.true_direction == NORTH and original_angle % 360 not in range(90, 270):
             ball.spin = int(-schlaeger.velocity * 10)
         
-        
+        """
+        Falls der Austrittswinkel weniger als 10° zum Schläger beträgt,
+        wird er entsprechend korrigiert, um diese Grenze nicht zu überschreiten.
+        """
         if original_angle in range(90, 270) and exit_angle in range(80, 280):
-            # Ball kann nicht zu flach abspringen.
             exit_angle = 80 if abs(exit_angle - 80) < abs(exit_angle - 280) \
                     else 280
             

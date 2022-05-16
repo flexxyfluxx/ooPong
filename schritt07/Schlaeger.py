@@ -30,6 +30,7 @@ class Schlaeger(gg.Actor):
         self.velocity = 0
         self._recent_turn = False
     
+    
     def act(self):
         self._do_border_things()
         """
@@ -38,6 +39,7 @@ class Schlaeger(gg.Actor):
         self.move()
         #"""
     
+    
     def _do_border_things(self):
         if self.getY() <= self.min_y:
             self.setY(self.min_y)
@@ -45,6 +47,7 @@ class Schlaeger(gg.Actor):
         elif self.getY() >= self.max_y:
             self.setY(self.max_y)
             self.velocity = 1
+    
     
     def move(self):
         """
@@ -95,8 +98,3 @@ class Schlaeger(gg.Actor):
             self.true_direction = None
             self._has_momentum = False
             self.velocity = 0
-        """
-        print(self.velocity)
-        print(self._has_momentum)
-        print("---")
-        #"""

@@ -27,6 +27,7 @@ class Cfg(): # Dataclass mit den Settings aus der INI.
         self.BALL_SPEED = self._parser.getint('GameSettings', 'BALL_SPEED')
         self.OBSTACLES = self._parser.getboolean('GameSettings', 'OBSTACLES')
     
+    
     def write_wndw_height(self, new):
         if new // 1 != new: # Akzeptiere nur Ganzzahlen.
             print("[error] Cfg.write_wndw_height: Non-Integer value given! Naughty, naughty!")
@@ -37,7 +38,8 @@ class Cfg(): # Dataclass mit den Settings aus der INI.
     
     def get_wndw_height(self):
         return self.WINDOW_HEIGHT
-        
+    
+    
     def write_wndw_width(self, new):
         if new // 1 != new:
             print("[ERROR] Cfg.write_wndw_width: Non-Integer value given! Naughty, naughty!")
@@ -48,6 +50,7 @@ class Cfg(): # Dataclass mit den Settings aus der INI.
     
     def get_wndw_width(self):
         return self.WINDOW_WIDTH
+    
     
     def write_ball_speed(self, new):
         if new // 1 != new:
@@ -60,6 +63,7 @@ class Cfg(): # Dataclass mit den Settings aus der INI.
     def get_ball_speed(self):
         return self.BALL_SPEED
     
+    
     def write_obstacles(self, new):
         if not isinstance(new, bool):
             print("[ERROR] Cfg.write_obstacles: Non-Bool value given! Naughty, naughty!")
@@ -71,6 +75,7 @@ class Cfg(): # Dataclass mit den Settings aus der INI.
     def get_obstacle_state(self):
         return self.OBSTACLES
     
+    
     def write_paddle_speed(self, new):
         if new // 1 != new:
             print("[ERROR] Cfg.write_paddle_speed: Non-Integer value given! Naughty, naughty!")
@@ -78,9 +83,10 @@ class Cfg(): # Dataclass mit den Settings aus der INI.
         
         self.PADDLE_SPEED = new
         self._parser.set('GameSettings', 'PADDLE_SPEED', new)
-
+    
     def get_paddle_speed(self):
         return self.PADDLE_SPEED
+    
     
     def commit_to_ini(self):
         fileobj = open('settings.ini', 'w')

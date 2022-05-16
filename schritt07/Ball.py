@@ -27,15 +27,19 @@ class Ball(gg.Actor):
         
         self._point = False
         
-        self._velocity = 0
+        self._velocity_factor = 0
         self.spin = 0
+    
     
     def act(self):
         if self._point:
             sleep(0.75)
             self._point = False
         
-        self.setDirection(self.get_exit_angle())
+        exit_angle = self.get_exit_angle()
+        if exit_angle != self.getDirection():
+            self.spin = 0
+        self.setDirection(exit_angle)
         #print(self.getDirection())
         
         """# collision class is obsolete?? o_o (nvfm,is still relevant)
@@ -56,8 +60,9 @@ class Ball(gg.Actor):
             if self.schlaeger_2.getY() + 82 > self._ball_paddle_intercept > self.schlaeger_2.getY() - 82:
                 self.setLocation(self.schlaeger_2.getX(), int(self._ball_paddle_intercept))
         """
-        self._velocity += 0.02 if self._velocity < 1 else 0
-        self.move(int(config.BALL_SPEED * self._velocity))
+        
+        self._velocity_factor += 0.02 if self._velocity_factor < 1 else 0
+        self.move(int(config.BALL_SPEED * self._velocity_factor))
         
         
         if self.getX() <= self.min_x and not self._point:
@@ -70,7 +75,7 @@ class Ball(gg.Actor):
             self.setLocation(self._start_pos)
             self.setDirection(choice(START_DIRECTIONS))
             self._point = True
-        
+    
     
     def get_exit_angle(self):
         original_angle = self.getDirection()
@@ -83,35 +88,48 @@ class Ball(gg.Actor):
             return int((180 - original_angle) % 360)
         #"""
         
-        # Nord-Süd-Kollision:
+        # Kollision an Nord-/Südwand:
         if ((self.getY() <= self.min_y and original_angle < 360 and original_angle > 180) \
                 or (self.getY() >= self.max_y and original_angle < 180)):
-            to_return = int(360 - original_angle) + self.spin
-            
-            # Falls der Originalwinkel bei Nord-Süd-Kollision steil ist (Aufprallwinkel < 70°),
-            # springt der Ball stattdessen im 45°-Winkel weg, um das Spiel zu beschleunigen:
+            """
+            Falls der Originalwinkel bei Nord-Süd-Kollision besonders steil ist (Aufprallwinkel < 70°),
+            springt der Ball stattdessen im 45°-Winkel weg, um das Spiel zu beschleunigen:
+            """
             chance = randint(1,2)
             if original_angle in range(70, 90) or original_angle in range(250, 270) and chance == 1:
-                to_return = int((original_angle - 45) % 360) + self.spin
+                return int((original_angle - 45 + self.spin) % 360)
             
-            elif original_angle in range(90, 110) or original_angle in range(270, 290) and chance == 1:
-                to_return = int((original_angle - 225) % 360) + self.spin
+            if original_angle in range(90, 110) or original_angle in range(270, 290) and chance == 1:
+                return int((original_angle - 225 + self.spin) % 360)
+            
+            
+            """
+            Falls der Ball aufgrund der vorherrschenden Drehung "zurückfliegen" würde, wird dies entsprechend verhndert.
+            """
+            if original_angle in range(91, 270) and exit_angle in range(91, 270):
+                if exit_angle > 270:
+                    return 269
+                return 91
+            if original_angle not in range(90, 271) and exit_angle not in range(90, 271):
+                if exit_angle > 180:
+                    return 271
+                return 89
             
             #self.setY(self.min_y)
-            self.spin = 0
-            return to_return
-            # Kein Modulo nötig, da der gegebene und der entstehende Winkel nicht über 360 / unter 0 sein können
+            return int((360 - original_angle + self.spin) % 360)
         
         # Falls keine Kollision vorhanden: Ursprungsrichtung zurückgeben.
         return int(original_angle)
     
+    
     def _do_goal_things(self, side):
-        self._velocity = 0
+        self._velocity_factor = 0
+        self.spin = 0
         if not isinstance(self._anzeige, Anzeige):
             print("[ERROR] Dem Ball ist keine Anzeige zugewiesen!")
             return
         
-        elif side == WEST:
+        if side == WEST:
             self._anzeige.player_2.add_points(1)
             """
             self._anzeige.print_score()
@@ -135,7 +153,8 @@ class Ball(gg.Actor):
             sleep(0.25)
             self._anzeige.scoreboard.show()
             sleep(0.25)
-        
+    
+    
     def bind_anzeige(self, anzeige):
         self._anzeige = anzeige
     

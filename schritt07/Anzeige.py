@@ -41,29 +41,36 @@ class Anzeige():
         self._vs.setTextColor(j_Color.white)
         self._vs.setLocation(gg.Location(self.wndw_width // 2 - self._vs.getTextWidth() // 2, self.wndw_height - 36))
     
+    
     def print_score(self):
         print("SPIELSTAND: "+str(self.player_1.get_points())+":"+str(self.player_2.get_points()))
         self.scoreboard.show()
-        
+    
+    
     def show_scoreboard(self):
         self.scoreboard.show()
     
+    
     def hide_scoreboard(self):
         self.scoreboard.hide()
+    
     
     def update_scoreboard(self):
         self.scoreboard.setText(str(self.player_1.get_points()) + " : " + str(self.player_2.get_points()))
         self.scoreboard.setLocation(gg.Location(self.wndw_width // 2 - self.scoreboard.getTextWidth() // 2, 32))
     
+    
     def print_player_names(self):
         print("SPIELER 1: "+self.player_1.get_name() \
             + "\nSPIELER 2: "+self.player_2.get_name())
-        
+    
+    
     def show_player_names(self):
         self._p1_plaque.show()
         self._p2_plaque.show()
         self._vs.show()
-        
+    
+    
     def hide_player_names(self):
         self._p1_plaque.hide()
         self._p2_plaque.hide()

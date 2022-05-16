@@ -20,6 +20,7 @@ class DumbSchlaeger(gg.Actor):
         self.true_direction = 0
         self.velocity = 1
     
+    
     def act(self):
         self.move()
         self.true_direction = self.getDirection()

@@ -13,14 +13,18 @@ class Spieler():
         self.points = 0
         self.highscore = 0 # you are useless. you are nothing to me.
     
+    
     def get_name(self):
         return self.name
     
+    
     def set_points(self, points):
         self.points = count
-        
+    
+    
     def get_points(self):
         return self.points
+    
     
     def add_points(self, points):
         self.points += points
