@@ -22,10 +22,13 @@ class Collider(gg.GGActorCollisionListener):
         
         exit_angle =  int((180 - original_angle) % 360) + randint(-10, 10) + ball.spin
         ball.spin = 0
-        if schlaeger.true_direction == NORTH:
-            ball.spin = int(-schlaeger.velocity * 10)
-        elif schlaeger.true_direction == SOUTH:
+        if (schlaeger.true_direction == NORTH and original_angle % 360 in range(90, 270)) \
+                or schlaeger.true_direction == SOUTH and original_angle % 360 not in range(90, 270):
             ball.spin = int(schlaeger.velocity * 10)
+            
+        elif (schlaeger.true_direction == SOUTH and original_angle % 360 in range(90, 270)) \
+                or schlaeger.true_direction == NORTH and original_angle % 360 not in range(90, 270):
+            ball.spin = int(-schlaeger.velocity * 10)
         
         
         if original_angle in range(90, 270) and exit_angle in range(80, 280):

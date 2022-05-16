@@ -62,7 +62,6 @@ def play_game(show_debug_bar, obstacles = False):
     the_anzeige = Anzeige(main_grid, player_1, player_2)
     
     the_ball.bind_anzeige(the_anzeige)
-    the_ball.bind_schlaeger(schlaeger_1, schlaeger_2)
 
     location_s1 = gg.Location(50, config.WINDOW_HEIGHT // 2)
     location_s2 = gg.Location(config.WINDOW_WIDTH - 50, config.WINDOW_HEIGHT // 2)
