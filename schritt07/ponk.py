@@ -1,5 +1,5 @@
-""" MAIN:
-Hier wird der Hauptprogrammablauf beschrieben.
+""" PONK:
+Hier wird der Spielablauf beschrieben.
 """
 
 """ Imports: """
@@ -56,7 +56,7 @@ def play_game(show_debug_bar, obstacles = False):
         p1_name = inputString("Name Spieler 1: (Weniger als 24 Zeichen!)")
     
     p2_name = inputString("Name Spieler 2: (Weniger als 24 Zeichen!)")
-    while len(p2_name) > 24 not in range(1, 25) or p2_name == p1_name:
+    while p2_name == p1_name or not len(p2_name) in range(1, 25):
         if p2_name == p1_name:
             p2_name = inputString("FEHLER: Name schon vergeben!\nName Spieler 2: (Weniger als 24 Zeichen!)")
         else:
@@ -75,12 +75,17 @@ def play_game(show_debug_bar, obstacles = False):
     gg.addActor(schlaeger_1, location_s1)
     gg.addActor(schlaeger_2, location_s2)
     
+    #""
     location_ball = gg.Location(config.WINDOW_WIDTH // 2, config.WINDOW_HEIGHT // 2)
+    """
+    location_ball = gg.Location(config.WINDOW_WIDTH // 2, config.WINDOW_HEIGHT // 20)
+    #"""
+    
     #"""
     gg.addActor(the_ball, location_ball, choice(START_DIRECTIONS))
     """
     # Specific Angle Debug
-    gg.addActor(the_ball, location_ball, 0)
+    gg.addActor(the_ball, location_ball, 130)
     #"""
     
     
@@ -117,7 +122,7 @@ def play_game(show_debug_bar, obstacles = False):
 
 # -------- MAIN --------
 if __name__ == "__main__":
-    play_game(True, True)
+    play_game(False, False)
 
 """ Falls das Spiel statt über Aufruf von play_game durch laden des ponk-Moduls gestartet werden soll:
 if __name__ == "ponk":

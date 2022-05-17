@@ -56,8 +56,11 @@ class Schlaeger(gg.Actor):
         d.h. es sind auch "schlampige" Wechsel möglich, bei denen man die vorherige
         Richtungstaste noch gedrückt hält.
         -> höhere Wechselpräzision
+        
+        Unterscheidung zw. ref_direction und true_direction:
+            ref_direction dient der internen Richtungskontrolle;
+            true_direction dient der Angabe der Schlägerrichtung an äußere Entitäten.
         """
-        if self.velocity > config.PADDLE_ACCEL_LIMIT: self.velocity = config.PADDLE_ACCEL_LIMIT
         
         if gg.isKeyPressed(self.key_up) and gg.isKeyPressed(self.key_dn):
             if self._has_momentum:
@@ -71,7 +74,7 @@ class Schlaeger(gg.Actor):
                 self.setY(self.getY() - int(config.PADDLE_SPEED / 2 * (1 + self.velocity)))
                 self.true_direction = NORTH
                 
-            self.velocity += 0.1 if self.velocity < config.PADDLE_ACCEL_LIMIT else config.PADDLE_ACCEL_LIMIT
+            self.velocity += 0.1 if self.velocity < config.PADDLE_ACCEL_LIMIT else 0
             self._has_momentum = False
         
         elif gg.isKeyPressed(self.key_up) and not gg.isKeyPressed(self.key_dn):
@@ -80,7 +83,7 @@ class Schlaeger(gg.Actor):
             self.setY(self.getY() - int(config.PADDLE_SPEED / 2 * (1 + self.velocity)))
             self._ref_direction = NORTH
             self.true_direction = NORTH
-            self.velocity += 0.1 if self.velocity < config.PADDLE_ACCEL_LIMIT else config.PADDLE_ACCEL_LIMIT
+            self.velocity += 0.1 if self.velocity < config.PADDLE_ACCEL_LIMIT else 0
             self._has_momentum = True
         
         elif gg.isKeyPressed(self.key_dn) and not gg.isKeyPressed(self.key_up):
@@ -89,7 +92,7 @@ class Schlaeger(gg.Actor):
             self.setY(self.getY() + int(config.PADDLE_SPEED / 2 * (1 + self.velocity)))
             self._ref_direction = SOUTH
             self.true_direction = SOUTH
-            self.velocity += 0.1 if self.velocity < config.PADDLE_ACCEL_LIMIT else config.PADDLE_ACCEL_LIMIT
+            self.velocity += 0.1 if self.velocity < config.PADDLE_ACCEL_LIMIT else 0
             self._has_momentum = True
         
         else:

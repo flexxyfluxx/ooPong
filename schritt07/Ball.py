@@ -32,14 +32,15 @@ class Ball(gg.Actor):
     
     
     def act(self):
+        print(self.spin)
         if self._point:
             sleep(0.75)
             self._point = False
         
         exit_angle = self.get_exit_angle()
         if exit_angle != self.getDirection():
-            self.spin = 0
-        self.setDirection(exit_angle)
+            self.spin /= -2
+            self.setDirection(exit_angle)
         #print(self.getDirection())
         
         """# collision class is obsolete?? o_o (nvfm,is still relevant)
@@ -95,28 +96,35 @@ class Ball(gg.Actor):
             Falls der Originalwinkel bei Nord-Süd-Kollision besonders steil ist (Aufprallwinkel < 70°),
             springt der Ball stattdessen im 45°-Winkel weg, um das Spiel zu beschleunigen:
             """
-            chance = randint(1,2)
-            if original_angle in range(70, 90) or original_angle in range(250, 270) and chance == 1:
-                return int((original_angle - 45 + self.spin) % 360)
+            exit_angle = int((360 - original_angle + self.spin) % 360)
             
-            if original_angle in range(90, 110) or original_angle in range(270, 290) and chance == 1:
-                return int((original_angle - 225 + self.spin) % 360)
+            """
+            chance = randint(1,3)
+            """
+            chance = 3
+            #"""
+            
+            if original_angle in range(70, 90) or original_angle in range(250, 270) and chance > 1:
+                exit_angle =  int((original_angle - 45) % 360)
+            
+            elif original_angle in range(90, 110) or original_angle in range(270, 290) and chance == 1:
+                exit_angle =  int((original_angle - 225) % 360)
             
             
             """
             Falls der Ball aufgrund der vorherrschenden Drehung "zurückfliegen" würde, wird dies entsprechend verhndert.
             """
-            if original_angle in range(91, 270) and exit_angle in range(91, 270):
+            if original_angle in range(91, 270) and exit_angle not in range(91, 270):
                 if exit_angle > 270:
-                    return 269
-                return 91
-            if original_angle not in range(90, 271) and exit_angle not in range(90, 271):
+                    return 260
+                return 100
+            if original_angle not in range(90, 271) and exit_angle in range(90, 271):
                 if exit_angle > 180:
-                    return 271
-                return 89
+                    return 280
+                return 80
             
             #self.setY(self.min_y)
-            return int((360 - original_angle + self.spin) % 360)
+            return exit_angle
         
         # Falls keine Kollision vorhanden: Ursprungsrichtung zurückgeben.
         return int(original_angle)

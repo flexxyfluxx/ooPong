@@ -1,5 +1,5 @@
-""" Menu:
-Hier werden die MainMenu-Methoden definiert.
+""" MAIN:
+Hier wird das Hauptmenü erstellt und dann das Spiel initialisiert..
 """
 
 """ Imports: """

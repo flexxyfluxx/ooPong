@@ -21,8 +21,8 @@ class Collider(gg.GGActorCollisionListener):
         original_angle = ball.getDirection()
         
         # Berechne Austrittswinkel mitsamt Modifikationen:
-        exit_angle =  int((180 - original_angle) % 360) + randint(-10, 10) + ball.spin
-        ball.spin = 0
+        exit_angle =  int((180 - original_angle) % 360) + ball.spin + randint(-10, 10)
+        ball.spin /= -2
         
         """
         Wird der Ball angeschnitten (d.h. der Schläger bewegt sich beim Aufschlag),
@@ -32,11 +32,11 @@ class Collider(gg.GGActorCollisionListener):
         """
         if (schlaeger.true_direction == NORTH and original_angle % 360 in range(90, 270)) \
                 or schlaeger.true_direction == SOUTH and original_angle % 360 not in range(90, 270):
-            ball.spin = int(schlaeger.velocity * 10)
+            ball.spin += int(schlaeger.velocity * 5)
             
         elif (schlaeger.true_direction == SOUTH and original_angle % 360 in range(90, 270)) \
                 or schlaeger.true_direction == NORTH and original_angle % 360 not in range(90, 270):
-            ball.spin = int(-schlaeger.velocity * 10)
+            ball.spin -= int(schlaeger.velocity * 5)
         
         """
         Falls der Austrittswinkel weniger als 10° zum Schläger beträgt,
